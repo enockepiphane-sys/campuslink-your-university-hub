@@ -20,6 +20,7 @@ import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppEventsRouteImport } from './routes/app.events'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
 import { Route as AdminStudentsRouteImport } from './routes/admin.students'
+import { Route as AdminGradesRouteImport } from './routes/admin.grades'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
@@ -78,6 +79,11 @@ const AdminStudentsRoute = AdminStudentsRouteImport.update({
   path: '/students',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminGradesRoute = AdminGradesRouteImport.update({
+  id: '/grades',
+  path: '/grades',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEventsRoute = AdminEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
+  '/admin/grades': typeof AdminGradesRoute
   '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
+  '/admin/grades': typeof AdminGradesRoute
   '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
+  '/admin/grades': typeof AdminGradesRoute
   '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/admin/announcements'
     | '/admin/events'
+    | '/admin/grades'
     | '/admin/students'
     | '/app/announcements'
     | '/app/events'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/admin/announcements'
     | '/admin/events'
+    | '/admin/grades'
     | '/admin/students'
     | '/app/announcements'
     | '/app/events'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/admin/announcements'
     | '/admin/events'
+    | '/admin/grades'
     | '/admin/students'
     | '/app/announcements'
     | '/app/events'
@@ -265,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminStudentsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/grades': {
+      id: '/admin/grades'
+      path: '/grades'
+      fullPath: '/admin/grades'
+      preLoaderRoute: typeof AdminGradesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/events': {
       id: '/admin/events'
       path: '/events'
@@ -285,6 +304,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
   AdminEventsRoute: typeof AdminEventsRoute
+  AdminGradesRoute: typeof AdminGradesRoute
   AdminStudentsRoute: typeof AdminStudentsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -292,6 +312,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAnnouncementsRoute: AdminAnnouncementsRoute,
   AdminEventsRoute: AdminEventsRoute,
+  AdminGradesRoute: AdminGradesRoute,
   AdminStudentsRoute: AdminStudentsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
