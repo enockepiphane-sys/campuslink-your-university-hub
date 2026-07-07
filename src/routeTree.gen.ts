@@ -9,38 +9,218 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppGradesRouteImport } from './routes/app.grades'
+import { Route as AppEventsRouteImport } from './routes/app.events'
+import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as AdminStudentsRouteImport } from './routes/admin.students'
+import { Route as AdminGradesRouteImport } from './routes/admin.grades'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGradesRoute = AppGradesRouteImport.update({
+  id: '/grades',
+  path: '/grades',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEventsRoute = AppEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminStudentsRoute = AdminStudentsRouteImport.update({
+  id: '/students',
+  path: '/students',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGradesRoute = AdminGradesRouteImport.update({
+  id: '/grades',
+  path: '/grades',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/grades': typeof AdminGradesRoute
+  '/admin/students': typeof AdminStudentsRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/events': typeof AppEventsRoute
+  '/app/grades': typeof AppGradesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/grades': typeof AdminGradesRoute
+  '/admin/students': typeof AdminStudentsRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/events': typeof AppEventsRoute
+  '/app/grades': typeof AppGradesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin': typeof AdminIndexRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/grades': typeof AdminGradesRoute
+  '/admin/students': typeof AdminStudentsRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/events': typeof AppEventsRoute
+  '/app/grades': typeof AppGradesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/login'
+    | '/admin/announcements'
+    | '/admin/events'
+    | '/admin/grades'
+    | '/admin/students'
+    | '/app/announcements'
+    | '/app/events'
+    | '/app/grades'
+    | '/app/profile'
+    | '/admin/'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/admin/announcements'
+    | '/admin/events'
+    | '/admin/grades'
+    | '/admin/students'
+    | '/app/announcements'
+    | '/app/events'
+    | '/app/grades'
+    | '/app/profile'
+    | '/admin'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/login'
+    | '/admin/announcements'
+    | '/admin/events'
+    | '/admin/grades'
+    | '/admin/students'
+    | '/app/announcements'
+    | '/app/events'
+    | '/app/grades'
+    | '/app/profile'
+    | '/admin/'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +228,121 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/grades': {
+      id: '/app/grades'
+      path: '/grades'
+      fullPath: '/app/grades'
+      preLoaderRoute: typeof AppGradesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/events': {
+      id: '/app/events'
+      path: '/events'
+      fullPath: '/app/events'
+      preLoaderRoute: typeof AppEventsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/announcements': {
+      id: '/app/announcements'
+      path: '/announcements'
+      fullPath: '/app/announcements'
+      preLoaderRoute: typeof AppAnnouncementsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/students': {
+      id: '/admin/students'
+      path: '/students'
+      fullPath: '/admin/students'
+      preLoaderRoute: typeof AdminStudentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/grades': {
+      id: '/admin/grades'
+      path: '/grades'
+      fullPath: '/admin/grades'
+      preLoaderRoute: typeof AdminGradesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/announcements': {
+      id: '/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof AdminAnnouncementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
+  AdminEventsRoute: typeof AdminEventsRoute
+  AdminGradesRoute: typeof AdminGradesRoute
+  AdminStudentsRoute: typeof AdminStudentsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
+  AdminEventsRoute: AdminEventsRoute,
+  AdminGradesRoute: AdminGradesRoute,
+  AdminStudentsRoute: AdminStudentsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface AppRouteChildren {
+  AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppEventsRoute: typeof AppEventsRoute
+  AppGradesRoute: typeof AppGradesRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppEventsRoute: AppEventsRoute,
+  AppGradesRoute: AppGradesRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
