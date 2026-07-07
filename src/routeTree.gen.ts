@@ -20,6 +20,7 @@ import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppEventsRouteImport } from './routes/app.events'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
 import { Route as AdminStudentsRouteImport } from './routes/admin.students'
+import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -76,12 +77,18 @@ const AdminStudentsRoute = AdminStudentsRouteImport.update({
   path: '/students',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/admin/announcements'
     | '/admin/students'
     | '/app/announcements'
     | '/app/events'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/admin/announcements'
     | '/admin/students'
     | '/app/announcements'
     | '/app/events'
@@ -146,6 +157,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/admin/announcements'
     | '/admin/students'
     | '/app/announcements'
     | '/app/events'
@@ -241,15 +253,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminStudentsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/announcements': {
+      id: '/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof AdminAnnouncementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
   AdminStudentsRoute: typeof AdminStudentsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
   AdminStudentsRoute: AdminStudentsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
