@@ -19,6 +19,7 @@ import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppEventsRouteImport } from './routes/app.events'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -70,12 +71,18 @@ const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
+const AdminStudentsRoute = AdminStudentsRouteImport.update({
+  id: '/students',
+  path: '/students',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/admin/students'
     | '/app/announcements'
     | '/app/events'
     | '/app/grades'
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/admin/students'
     | '/app/announcements'
     | '/app/events'
     | '/app/grades'
@@ -135,6 +146,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/admin/students'
     | '/app/announcements'
     | '/app/events'
     | '/app/grades'
@@ -222,14 +234,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/admin/students': {
+      id: '/admin/students'
+      path: '/students'
+      fullPath: '/admin/students'
+      preLoaderRoute: typeof AdminStudentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminStudentsRoute: typeof AdminStudentsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminStudentsRoute: AdminStudentsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
