@@ -13,6 +13,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppEventsRouteImport } from './routes/app.events'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AppRoute,
 } as any)
 const AppGradesRoute = AppGradesRouteImport.update({
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
+  '/app/profile': typeof AppProfileRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
+  '/app/profile': typeof AppProfileRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
+  '/app/profile': typeof AppProfileRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/app/announcements'
     | '/app/events'
     | '/app/grades'
+    | '/app/profile'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/app/announcements'
     | '/app/events'
     | '/app/grades'
+    | '/app/profile'
     | '/app'
   id:
     | '__root__'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/app/announcements'
     | '/app/events'
     | '/app/grades'
+    | '/app/profile'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -145,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/grades': {
       id: '/app/grades'
       path: '/grades'
@@ -173,6 +192,7 @@ interface AppRouteChildren {
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
   AppEventsRoute: typeof AppEventsRoute
   AppGradesRoute: typeof AppGradesRoute
+  AppProfileRoute: typeof AppProfileRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
@@ -180,6 +200,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAnnouncementsRoute: AppAnnouncementsRoute,
   AppEventsRoute: AppEventsRoute,
   AppGradesRoute: AppGradesRoute,
+  AppProfileRoute: AppProfileRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
