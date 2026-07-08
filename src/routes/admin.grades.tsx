@@ -92,7 +92,7 @@ function GradesAdmin() {
                     </td>
                     <td className="py-2">
                       {n ? (
-                        <button onClick={()=>togglePublish(n.id, n.published)} className="text-xs">
+                        <button onClick={()=>togglePublish(n.id, !!n.published)} className="text-xs">
                           <Chip tone={n.published ? "success" : "muted"}>{n.published ? "Publiée" : "En attente"}</Chip>
                         </button>
                       ) : <Chip tone="muted">—</Chip>}
