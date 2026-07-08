@@ -10,12 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlatformIndexRouteImport } from './routes/platform.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as PlatformPartenariatsRouteImport } from './routes/platform.partenariats'
+import { Route as PlatformEtablissementsRouteImport } from './routes/platform.etablissements'
+import { Route as PlatformAdminsRouteImport } from './routes/platform.admins'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppEventsRouteImport } from './routes/app.events'
@@ -28,6 +33,11 @@ import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcem
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -50,6 +60,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlatformIndexRoute = PlatformIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlatformRoute,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -59,6 +74,21 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const PlatformPartenariatsRoute = PlatformPartenariatsRouteImport.update({
+  id: '/partenariats',
+  path: '/partenariats',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformEtablissementsRoute = PlatformEtablissementsRouteImport.update({
+  id: '/etablissements',
+  path: '/etablissements',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformAdminsRoute = PlatformAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => PlatformRoute,
 } as any)
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
@@ -106,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/platform': typeof PlatformRouteWithChildren
   '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
@@ -115,8 +146,12 @@ export interface FileRoutesByFullPath {
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/etablissements': typeof PlatformEtablissementsRoute
+  '/platform/partenariats': typeof PlatformPartenariatsRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/platform/': typeof PlatformIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -130,8 +165,12 @@ export interface FileRoutesByTo {
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/etablissements': typeof PlatformEtablissementsRoute
+  '/platform/partenariats': typeof PlatformPartenariatsRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/platform': typeof PlatformIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -139,6 +178,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/platform': typeof PlatformRouteWithChildren
   '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
@@ -148,8 +188,12 @@ export interface FileRoutesById {
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
+  '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/etablissements': typeof PlatformEtablissementsRoute
+  '/platform/partenariats': typeof PlatformPartenariatsRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/platform/': typeof PlatformIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,6 +202,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/platform'
     | '/register'
     | '/admin/announcements'
     | '/admin/events'
@@ -167,8 +212,12 @@ export interface FileRouteTypes {
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
+    | '/platform/admins'
+    | '/platform/etablissements'
+    | '/platform/partenariats'
     | '/admin/'
     | '/app/'
+    | '/platform/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -182,14 +231,19 @@ export interface FileRouteTypes {
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
+    | '/platform/admins'
+    | '/platform/etablissements'
+    | '/platform/partenariats'
     | '/admin'
     | '/app'
+    | '/platform'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/app'
     | '/login'
+    | '/platform'
     | '/register'
     | '/admin/announcements'
     | '/admin/events'
@@ -199,8 +253,12 @@ export interface FileRouteTypes {
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
+    | '/platform/admins'
+    | '/platform/etablissements'
+    | '/platform/partenariats'
     | '/admin/'
     | '/app/'
+    | '/platform/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -208,6 +266,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
+  PlatformRoute: typeof PlatformRouteWithChildren
   RegisterRoute: typeof RegisterRoute
 }
 
@@ -218,6 +277,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -248,6 +314,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/platform/': {
+      id: '/platform/'
+      path: '/'
+      fullPath: '/platform/'
+      preLoaderRoute: typeof PlatformIndexRouteImport
+      parentRoute: typeof PlatformRoute
+    }
     '/app/': {
       id: '/app/'
       path: '/'
@@ -261,6 +334,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/platform/partenariats': {
+      id: '/platform/partenariats'
+      path: '/partenariats'
+      fullPath: '/platform/partenariats'
+      preLoaderRoute: typeof PlatformPartenariatsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/etablissements': {
+      id: '/platform/etablissements'
+      path: '/etablissements'
+      fullPath: '/platform/etablissements'
+      preLoaderRoute: typeof PlatformEtablissementsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/admins': {
+      id: '/platform/admins'
+      path: '/admins'
+      fullPath: '/platform/admins'
+      preLoaderRoute: typeof PlatformAdminsRouteImport
+      parentRoute: typeof PlatformRoute
     }
     '/app/profile': {
       id: '/app/profile'
@@ -357,11 +451,30 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface PlatformRouteChildren {
+  PlatformAdminsRoute: typeof PlatformAdminsRoute
+  PlatformEtablissementsRoute: typeof PlatformEtablissementsRoute
+  PlatformPartenariatsRoute: typeof PlatformPartenariatsRoute
+  PlatformIndexRoute: typeof PlatformIndexRoute
+}
+
+const PlatformRouteChildren: PlatformRouteChildren = {
+  PlatformAdminsRoute: PlatformAdminsRoute,
+  PlatformEtablissementsRoute: PlatformEtablissementsRoute,
+  PlatformPartenariatsRoute: PlatformPartenariatsRoute,
+  PlatformIndexRoute: PlatformIndexRoute,
+}
+
+const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
+  PlatformRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
+  PlatformRoute: PlatformRouteWithChildren,
   RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport

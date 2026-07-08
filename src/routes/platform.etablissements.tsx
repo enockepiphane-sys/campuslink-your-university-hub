@@ -22,12 +22,12 @@ function EtabsPage() {
 
   async function add() {
     if (!form.nom) return;
-    const { error } = await supabase.from("etablissements").insert(form);
+    const { error } = await supabase.from("etablissements").insert({ ...form, statut: form.statut as "actif"|"en_attente"|"suspendu" });
     if (error) alert(error.message);
     else { setForm({ nom:"", email:"", telephone:"", adresse:"", description:"", statut:"actif" }); refresh(); }
   }
   async function setStatut(id:string, statut:string) {
-    await supabase.from("etablissements").update({ statut }).eq("id", id); refresh();
+    await supabase.from("etablissements").update({ statut: statut as "actif"|"en_attente"|"suspendu" }).eq("id", id); refresh();
   }
   async function remove(id:string) {
     if (!confirm("Supprimer cet établissement et toutes ses données ?")) return;
