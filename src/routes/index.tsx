@@ -8,8 +8,8 @@ export const Route = createFileRoute("/")({
   head: () => ({ meta: [
     { title: "CampusLink — La plateforme universitaire multi-établissements" },
     { name: "description", content: "CampusLink connecte les universités et leurs étudiants. Notes, annonces, événements et gestion administrative en un seul endroit." },
-    { property: "og:title", content: "CampusLink — Plateforme universitaire" },
-    { property: "og:description", content: "Une plateforme SaaS pensée pour les universités africaines." },
+    { property: "og:title", content: "CampusLink — La plateforme universitaire multi-établissements" },
+    { property: "og:description", content: "CampusLink connecte les universités et leurs étudiants. Notes, annonces, événements et gestion administrative en un seul endroit." },
   ]}),
 });
 
