@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -24,6 +25,11 @@ import { Route as AdminGradesRouteImport } from './routes/admin.grades'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/register'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/register'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/register'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -196,10 +208,18 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -342,6 +362,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
