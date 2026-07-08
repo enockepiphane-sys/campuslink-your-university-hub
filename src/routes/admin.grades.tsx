@@ -11,7 +11,7 @@ export const Route = createFileRoute("/admin/grades")({
 
 type Etudiant = { id:string; nom_complet:string };
 type Matiere = { id:string; nom:string; code:string|null };
-type Note = { id:string; etudiant_id:string; matiere_id:string; note:number|null; published:boolean };
+type Note = { id:string; etudiant_id:string; matiere_id:string; note:number|null; published:boolean|null };
 
 function GradesAdmin() {
   const auth = useAuth(); const eid = auth.etablissementId;

@@ -1,65 +1,69 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Avatar } from "@/components/campus/ui";
-import { student } from "@/lib/campus-data";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/use-auth";
 
 export const Route = createFileRoute("/app/profile")({
   component: ProfilePage,
-  head: () => ({ meta: [{ title: "Mon profil — CampusLink" }] }),
+  head: () => ({ meta: [{ title: "Profil — CampusLink" }] }),
 });
 
+type Info = { nom_complet:string|null; email:string|null; matricule:string|null; date_naissance:string|null; etablissement:string|null; filiere:string|null; niveau:string|null };
+
 function ProfilePage() {
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const [info, setInfo] = useState<Info|null>(null);
+
+  useEffect(() => {
+    if (!auth.user) return;
+    (async () => {
+      const { data: e } = await supabase.from("etudiants").select("nom_complet,email,matricule,date_naissance,etablissement_id,filiere_id,niveau_id").eq("user_id", auth.user!.id).maybeSingle();
+      if (!e) { setInfo({ nom_complet: auth.user?.user_metadata?.nom_complet ?? null, email: auth.user?.email ?? null, matricule: null, date_naissance: null, etablissement:null, filiere:null, niveau:null }); return; }
+      const [et, f, n] = await Promise.all([
+        e.etablissement_id ? supabase.from("etablissements").select("nom").eq("id", e.etablissement_id).maybeSingle() : Promise.resolve({ data: null }),
+        e.filiere_id ? supabase.from("filieres").select("nom").eq("id", e.filiere_id).maybeSingle() : Promise.resolve({ data: null }),
+        e.niveau_id ? supabase.from("niveaux").select("nom").eq("id", e.niveau_id).maybeSingle() : Promise.resolve({ data: null }),
+      ]);
+      setInfo({
+        nom_complet: e.nom_complet, email: e.email, matricule: e.matricule, date_naissance: e.date_naissance,
+        etablissement: et.data?.nom ?? null, filiere: f.data?.nom ?? null, niveau: n.data?.nom ?? null,
+      });
+    })();
+  }, [auth.user]);
+
+  async function logout() {
+    await supabase.auth.signOut();
+    navigate({ to: "/login" });
+  }
+
+  const initials = (info?.nom_complet ?? "?").split(" ").map(s=>s[0]).slice(0,2).join("").toUpperCase();
+
   return (
-    <div className="pb-4">
-      <header className="relative overflow-hidden bg-primary px-5 pt-6 pb-16 text-primary-foreground">
-        <div className="absolute inset-0 opacity-20 kente-stripe" style={{ maskImage: "linear-gradient(180deg, black, transparent)" }}/>
-        <div className="relative flex flex-col items-center text-center">
-          <Avatar initials={student.avatar} className="h-20 w-20 bg-gold text-gold-foreground text-2xl ring-4 ring-white/20" />
-          <h1 className="mt-3 font-display text-xl font-bold">{student.name}</h1>
-          <p className="text-xs opacity-80">{student.email}</p>
-          <span className="mt-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium">Matricule · {student.matricule}</span>
-        </div>
+    <div className="pb-6">
+      <header className="bg-primary px-5 pt-6 pb-10 text-primary-foreground text-center">
+        <Avatar initials={initials} className="mx-auto h-20 w-20 bg-gold text-gold-foreground text-2xl" />
+        <h1 className="mt-3 font-display text-xl font-bold">{info?.nom_complet ?? "—"}</h1>
+        <p className="text-xs opacity-80">{info?.email ?? "—"}</p>
       </header>
 
-      <div className="-mt-10 space-y-3 px-5">
-        <InfoCard title="Université" value={student.university} icon="🎓" />
-        <InfoCard title="Faculté" value={student.faculty} icon="🏛️" />
-        <InfoCard title="Filière" value={student.program} icon="📚" />
-        <InfoCard title="Niveau" value={student.level} icon="📈" />
-      </div>
-
-      <div className="mt-6 divide-y divide-border rounded-2xl bg-surface px-1 mx-5 shadow-card">
+      <section className="mt-4 space-y-2 px-5">
         {[
-          { l: "Paramètres du compte", i: "⚙️" },
-          { l: "Notifications", i: "🔔" },
-          { l: "Confidentialité", i: "🔒" },
-          { l: "Centre d'aide", i: "💬" },
-        ].map((r) => (
-          <button key={r.l} className="flex w-full items-center gap-3 px-4 py-3.5 text-left text-sm hover:bg-muted">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary-soft">{r.i}</span>
-            <span className="flex-1 font-medium">{r.l}</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-muted-foreground"><path d="M9 6l6 6-6 6"/></svg>
-          </button>
+          ["Établissement", info?.etablissement],
+          ["Filière", info?.filiere],
+          ["Niveau", info?.niveau],
+          ["Matricule", info?.matricule],
+          ["Date de naissance", info?.date_naissance],
+        ].map(([l, v]) => (
+          <div key={l as string} className="flex items-center justify-between rounded-xl bg-surface p-3 shadow-card">
+            <span className="text-xs text-muted-foreground">{l}</span>
+            <span className="text-sm font-semibold">{v ?? "—"}</span>
+          </div>
         ))}
-      </div>
 
-      <div className="mt-6 px-5">
-        <Link to="/" className="flex items-center justify-center rounded-2xl border border-destructive/30 bg-destructive/5 py-3 text-sm font-semibold text-destructive">
-          Se déconnecter
-        </Link>
-      </div>
-      <p className="mt-4 text-center text-[11px] text-muted-foreground">CampusLink v1.0 · 2025</p>
-    </div>
-  );
-}
-
-function InfoCard({ title, value, icon }: { title: string; value: string; icon: string }) {
-  return (
-    <div className="flex items-center gap-3 rounded-2xl bg-surface p-4 shadow-card">
-      <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary-soft text-lg">{icon}</div>
-      <div className="min-w-0">
-        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{title}</p>
-        <p className="truncate text-sm font-semibold">{value}</p>
-      </div>
+        <button onClick={logout} className="mt-6 w-full rounded-xl border border-red-200 bg-red-50 py-3 text-sm font-semibold text-red-700">Se déconnecter</button>
+      </section>
     </div>
   );
 }
