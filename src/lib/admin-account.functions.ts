@@ -3,15 +3,14 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 /**
- * Server fn : le super admin crée un compte administrateur d'établissement.
- * Utilise l'API Admin (service role) après vérification du rôle super_admin.
+ * Server fn : le super admin invite un administrateur d'établissement.
+ * L'admin recevra un email avec un lien OTP pour créer son compte.
  */
-export const createEtablissementAdmin = createServerFn({ method: "POST" })
+export const inviteEtablissementAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) =>
+  .validator((input: unknown) =>
     z.object({
       email: z.string().email(),
-      password: z.string().min(8).max(72),
       nom_complet: z.string().min(1).max(200),
       etablissement_id: z.string().uuid(),
     }).parse(input),
@@ -25,29 +24,73 @@ export const createEtablissementAdmin = createServerFn({ method: "POST" })
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
-      email: data.email,
-      password: data.password,
-      email_confirm: true,
-      user_metadata: { nom_complet: data.nom_complet },
+    // Créer l'utilisateur sans mot de passe (sera défini par l'admin via OTP)
+    // Utiliser inviteUserByEmail pour envoyer un email d'invitation
+    const { data: invited, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email, {
+      data: { nom_complet: data.nom_complet, etablissement_id: data.etablissement_id, role: "admin_etablissement" },
+      redirectTo: `${process.env.SITE_URL || "http://localhost:3000"}/admin-verify`,
     });
-    if (error || !created?.user) throw new Error(error?.message ?? "Création impossible");
+    if (error) throw new Error(error.message);
 
+    if (!invited?.user) throw new Error("Erreur lors de l'invitation");
+
+    // Créer le profil
     await supabaseAdmin.from("profiles").upsert({
-      id: created.user.id,
+      id: invited.user.id,
       nom_complet: data.nom_complet,
       email: data.email,
       etablissement_id: data.etablissement_id,
     });
 
+    // Créer le rôle (en attente de vérification)
     const { error: roleErr } = await supabaseAdmin.from("user_roles").insert({
-      user_id: created.user.id,
+      user_id: invited.user.id,
       role: "admin_etablissement",
       etablissement_id: data.etablissement_id,
     });
     if (roleErr) throw new Error(roleErr.message);
 
-    return { user_id: created.user.id };
+    return { user_id: invited.user.id, invited: true };
+  });
+
+/**
+ * Server fn : vérifier et finaliser le compte admin après OTP.
+ * L'admin doit confirmer son nom complet et date de naissance.
+ */
+export const verifyAdminOTP = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) =>
+    z.object({
+      nom_complet: z.string().min(1).max(200),
+      date_naissance: z.string(),
+    }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // Vérifier que l'utilisateur a un rôle admin_etablissement en attente
+    const { data: role } = await supabaseAdmin.from("user_roles")
+      .select("etablissement_id")
+      .eq("user_id", context.userId)
+      .eq("role", "admin_etablissement")
+      .maybeSingle();
+
+    if (!role) throw new Error("Compte non autorisé");
+
+    // Mettre à jour le profil avec les informations vérifiées
+    const { error: profileErr } = await supabaseAdmin.from("profiles").update({
+      nom_complet: data.nom_complet,
+      date_naissance: data.date_naissance,
+    }).eq("id", context.userId);
+
+    if (profileErr) throw new Error(profileErr.message);
+
+    // Mettre à jour les métadonnées utilisateur
+    await supabaseAdmin.auth.admin.updateUserById(context.userId, {
+      user_metadata: { nom_complet: data.nom_complet, date_naissance: data.date_naissance, verified: true },
+    });
+
+    return { verified: true, etablissement_id: role.etablissement_id };
   });
 
 /**

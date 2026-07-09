@@ -13,6 +13,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminVerifyRouteImport } from './routes/admin-verify'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlatformIndexRouteImport } from './routes/platform.index'
@@ -48,6 +49,11 @@ const LoginRoute = LoginRouteImport.update({
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminVerifyRoute = AdminVerifyRouteImport.update({
+  id: '/admin-verify',
+  path: '/admin-verify',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -134,6 +140,7 @@ const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/admin-verify': typeof AdminVerifyRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
@@ -155,6 +162,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin-verify': typeof AdminVerifyRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/admin-verify': typeof AdminVerifyRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/admin-verify'
     | '/app'
     | '/login'
     | '/platform'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin-verify'
     | '/login'
     | '/register'
     | '/admin/announcements'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/admin-verify'
     | '/app'
     | '/login'
     | '/platform'
@@ -264,6 +276,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AdminVerifyRoute: typeof AdminVerifyRoute
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   PlatformRoute: typeof PlatformRouteWithChildren
@@ -298,6 +311,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin-verify': {
+      id: '/admin-verify'
+      path: '/admin-verify'
+      fullPath: '/admin-verify'
+      preLoaderRoute: typeof AdminVerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -472,6 +492,7 @@ const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AdminVerifyRoute: AdminVerifyRoute,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   PlatformRoute: PlatformRouteWithChildren,
