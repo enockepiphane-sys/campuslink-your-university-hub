@@ -55,7 +55,7 @@ function LoginPage() {
             <h1 className="mt-3 max-w-md font-display text-4xl font-bold leading-tight">Ta scolarité, en un seul endroit.</h1>
             <p className="mt-4 max-w-md text-sm opacity-80">Une seule connexion pour tous les rôles : étudiant, administrateur d'université ou super administrateur CampusLink.</p>
           </div>
-          <p className="text-xs opacity-70">© CampusLink — Plateforme panafricaine.</p>
+          <p className="text-xs opacity-70">© CampusLink — Plateforme du Burkina Faso.</p>
         </div>
       </div>
 

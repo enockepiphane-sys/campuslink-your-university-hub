@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Logo, KenteBar } from "@/components/campus/ui";
+import { Logo, KenteBar, BurkinaFlag } from "@/components/campus/ui";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
@@ -18,7 +18,10 @@ function Landing() {
     <div className="min-h-screen bg-background">
       <KenteBar />
       <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-        <Logo />
+        <div className="flex items-center gap-2">
+          <Logo />
+          <BurkinaFlag />
+        </div>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           <a href="#features" className="hover:text-foreground">Fonctionnalités</a>
           <a href="#partenariat" className="hover:text-foreground">Devenir partenaire</a>
@@ -39,7 +42,7 @@ function Landing() {
             Toute la vie universitaire <span className="text-primary">dans une seule app.</span>
           </h1>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
-            CampusLink connecte les universités africaines et leurs étudiants. Notes, annonces, événements, scolarité — un espace numérique complet pour chaque établissement partenaire.
+            CampusLink connecte les universités burkinabè et leurs étudiants. Notes, annonces, événements, scolarité — un espace numérique complet pour chaque établissement partenaire.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/register" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant">
@@ -78,7 +81,7 @@ function Landing() {
 
       <section id="features" className="mx-auto max-w-7xl px-6 py-16">
         <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Fonctionnalités</p>
-        <h2 className="mt-2 max-w-2xl font-display text-3xl font-bold md:text-4xl">Une plateforme pensée pour les universités africaines.</h2>
+        <h2 className="mt-2 max-w-2xl font-display text-3xl font-bold md:text-4xl">Une plateforme pensée pour les universités du Burkina Faso.</h2>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {[
             { t: "Multi-établissements", d: "Chaque université dispose de son propre espace, ses filières et ses utilisateurs — isolés et sécurisés.", i: "🏛️" },
@@ -102,7 +105,7 @@ function Landing() {
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
           <Logo />
-          <p>© 2026 CampusLink — Une plateforme panafricaine.</p>
+          <p>© 2026 CampusLink — La plateforme universitaire du Burkina Faso.</p>
         </div>
       </footer>
     </div>

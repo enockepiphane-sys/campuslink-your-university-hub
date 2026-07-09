@@ -18,6 +18,18 @@ export function Logo({ className = "" }: { className?: string }) {
   );
 }
 
+export function BurkinaFlag({ className = "" }: { className?: string }) {
+  return (
+    <div className={`inline-flex overflow-hidden rounded-sm shadow-sm ${className}`}>
+      <svg viewBox="0 0 30 20" className="h-5 w-auto">
+        <rect x="0" y="0" width="30" height="10" fill="#CE1126" />
+        <rect x="0" y="10" width="30" height="10" fill="#009639" />
+        <polygon points="15,6 16.5,10.5 21,10.5 17.5,13 19,17.5 15,14.5 11,17.5 12.5,13 9,10.5 13.5,10.5" fill="#FCD116" />
+      </svg>
+    </div>
+  );
+}
+
 export function Avatar({ initials, className = "" }: { initials: string; className?: string }) {
   return (
     <div className={`grid place-items-center rounded-full bg-primary text-primary-foreground font-display font-semibold ${className}`}>
