@@ -190,39 +190,54 @@ export type Database = {
       etablissements: {
         Row: {
           adresse: string | null
+          categorie:
+            | Database["public"]["Enums"]["etablissement_categorie"]
+            | null
           created_at: string
           description: string | null
           email: string | null
           id: string
           logo_url: string | null
           nom: string
+          pays: string
           statut: Database["public"]["Enums"]["etablissement_statut"]
           telephone: string | null
           updated_at: string
+          ville: string | null
         }
         Insert: {
           adresse?: string | null
+          categorie?:
+            | Database["public"]["Enums"]["etablissement_categorie"]
+            | null
           created_at?: string
           description?: string | null
           email?: string | null
           id?: string
           logo_url?: string | null
           nom: string
+          pays?: string
           statut?: Database["public"]["Enums"]["etablissement_statut"]
           telephone?: string | null
           updated_at?: string
+          ville?: string | null
         }
         Update: {
           adresse?: string | null
+          categorie?:
+            | Database["public"]["Enums"]["etablissement_categorie"]
+            | null
           created_at?: string
           description?: string | null
           email?: string | null
           id?: string
           logo_url?: string | null
           nom?: string
+          pays?: string
           statut?: Database["public"]["Enums"]["etablissement_statut"]
           telephone?: string | null
           updated_at?: string
+          ville?: string | null
         }
         Relationships: []
       }
@@ -692,6 +707,7 @@ export type Database = {
     }
     Enums: {
       app_role: "super_admin" | "admin_etablissement" | "etudiant"
+      etablissement_categorie: "publique" | "privee"
       etablissement_statut: "actif" | "suspendu" | "en_attente"
     }
     CompositeTypes: {
@@ -821,6 +837,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["super_admin", "admin_etablissement", "etudiant"],
+      etablissement_categorie: ["publique", "privee"],
       etablissement_statut: ["actif", "suspendu", "en_attente"],
     },
   },
