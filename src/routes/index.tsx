@@ -27,7 +27,6 @@ function Landing() {
           <a href="#partenariat" className="hover:text-foreground">Devenir partenaire</a>
         </nav>
         <div className="flex items-center gap-2">
-          <Link to="/register" className="hidden rounded-full px-4 py-2 text-sm font-medium text-foreground hover:bg-muted md:inline-flex">Créer un compte étudiant</Link>
           <Link to="/login" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-elegant transition hover:opacity-95">Se connecter</Link>
         </div>
       </header>
@@ -45,8 +44,8 @@ function Landing() {
             CampusLink connecte les universités burkinabè et leurs étudiants. Notes, annonces, événements, scolarité — un espace numérique complet pour chaque établissement partenaire.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/register" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant">
-              Je suis étudiant · créer mon compte
+            <Link to="/login" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant">
+              Accéder à mon espace
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </Link>
             <a href="#partenariat" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:bg-muted">

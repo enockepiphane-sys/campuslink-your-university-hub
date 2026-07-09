@@ -102,6 +102,15 @@ function AdminVerifyPage() {
 
         {step === "verify" && (
           <div className="rounded-3xl border border-border bg-surface p-8 shadow-card">
+            <button
+              onClick={() => navigate({ to: "/login" })}
+              className="mb-4 flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Retour
+            </button>
             <h1 className="font-display text-2xl font-bold">Vérifiez votre identité</h1>
             <p className="mt-2 text-sm text-muted-foreground">
               Veuillez confirmer vos informations pour activer votre compte administrateur.
@@ -139,6 +148,15 @@ function AdminVerifyPage() {
 
         {step === "set-password" && (
           <div className="rounded-3xl border border-border bg-surface p-8 shadow-card">
+            <button
+              onClick={() => setStep("verify")}
+              className="mb-4 flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Retour
+            </button>
             <h1 className="font-display text-2xl font-bold">Définissez votre mot de passe</h1>
             <p className="mt-2 text-sm text-muted-foreground">
               Choisissez un mot de passe sécurisé pour votre compte.

@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
@@ -31,11 +30,6 @@ import { Route as AdminGradesRouteImport } from './routes/admin.grades'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
@@ -144,7 +138,6 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
-  '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -164,7 +157,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin-verify': typeof AdminVerifyRoute
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -188,7 +180,6 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
-  '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -213,7 +204,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/platform'
-    | '/register'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -233,7 +223,6 @@ export interface FileRouteTypes {
     | '/'
     | '/admin-verify'
     | '/login'
-    | '/register'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -256,7 +245,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/platform'
-    | '/register'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -280,18 +268,10 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   PlatformRoute: typeof PlatformRouteWithChildren
-  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/platform': {
       id: '/platform'
       path: '/platform'
@@ -496,7 +476,6 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   PlatformRoute: PlatformRouteWithChildren,
-  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
