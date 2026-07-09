@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
-import { Route as AdminVerifyRouteImport } from './routes/admin-verify'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlatformIndexRouteImport } from './routes/platform.index'
@@ -24,11 +23,11 @@ import { Route as PlatformAdminsRouteImport } from './routes/platform.admins'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppEventsRouteImport } from './routes/app.events'
+import { Route as AppEmploiRouteImport } from './routes/app.emploi'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
-import { Route as AdminStudentsRouteImport } from './routes/admin.students'
-import { Route as AdminGradesRouteImport } from './routes/admin.grades'
+import { Route as AdminFilieresRouteImport } from './routes/admin.filieres'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
-import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
+import { Route as AdminNiveauNiveauIdRouteImport } from './routes/admin.niveau.$niveauId'
 
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
@@ -43,11 +42,6 @@ const LoginRoute = LoginRouteImport.update({
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminVerifyRoute = AdminVerifyRouteImport.update({
-  id: '/admin-verify',
-  path: '/admin-verify',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -105,19 +99,19 @@ const AppEventsRoute = AppEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AppRoute,
 } as any)
+const AppEmploiRoute = AppEmploiRouteImport.update({
+  id: '/emploi',
+  path: '/emploi',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   id: '/announcements',
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
-const AdminStudentsRoute = AdminStudentsRouteImport.update({
-  id: '/students',
-  path: '/students',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminGradesRoute = AdminGradesRouteImport.update({
-  id: '/grades',
-  path: '/grades',
+const AdminFilieresRoute = AdminFilieresRouteImport.update({
+  id: '/filieres',
+  path: '/filieres',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminEventsRoute = AdminEventsRouteImport.update({
@@ -125,24 +119,22 @@ const AdminEventsRoute = AdminEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
-  id: '/announcements',
-  path: '/announcements',
+const AdminNiveauNiveauIdRoute = AdminNiveauNiveauIdRouteImport.update({
+  id: '/niveau/$niveauId',
+  path: '/niveau/$niveauId',
   getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin-verify': typeof AdminVerifyRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
-  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
-  '/admin/grades': typeof AdminGradesRoute
-  '/admin/students': typeof AdminStudentsRoute
+  '/admin/filieres': typeof AdminFilieresRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/emploi': typeof AppEmploiRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
@@ -152,16 +144,15 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
+  '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin-verify': typeof AdminVerifyRoute
   '/login': typeof LoginRoute
-  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
-  '/admin/grades': typeof AdminGradesRoute
-  '/admin/students': typeof AdminStudentsRoute
+  '/admin/filieres': typeof AdminFilieresRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/emploi': typeof AppEmploiRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
@@ -171,20 +162,19 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/platform': typeof PlatformIndexRoute
+  '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin-verify': typeof AdminVerifyRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
-  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
-  '/admin/grades': typeof AdminGradesRoute
-  '/admin/students': typeof AdminStudentsRoute
+  '/admin/filieres': typeof AdminFilieresRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/emploi': typeof AppEmploiRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
@@ -194,21 +184,20 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
+  '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin'
-    | '/admin-verify'
     | '/app'
     | '/login'
     | '/platform'
-    | '/admin/announcements'
     | '/admin/events'
-    | '/admin/grades'
-    | '/admin/students'
+    | '/admin/filieres'
     | '/app/announcements'
+    | '/app/emploi'
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
@@ -218,16 +207,15 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/platform/'
+    | '/admin/niveau/$niveauId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin-verify'
     | '/login'
-    | '/admin/announcements'
     | '/admin/events'
-    | '/admin/grades'
-    | '/admin/students'
+    | '/admin/filieres'
     | '/app/announcements'
+    | '/app/emploi'
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
@@ -237,19 +225,18 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/platform'
+    | '/admin/niveau/$niveauId'
   id:
     | '__root__'
     | '/'
     | '/admin'
-    | '/admin-verify'
     | '/app'
     | '/login'
     | '/platform'
-    | '/admin/announcements'
     | '/admin/events'
-    | '/admin/grades'
-    | '/admin/students'
+    | '/admin/filieres'
     | '/app/announcements'
+    | '/app/emploi'
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
@@ -259,12 +246,12 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/platform/'
+    | '/admin/niveau/$niveauId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AdminVerifyRoute: typeof AdminVerifyRoute
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   PlatformRoute: typeof PlatformRouteWithChildren
@@ -291,13 +278,6 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin-verify': {
-      id: '/admin-verify'
-      path: '/admin-verify'
-      fullPath: '/admin-verify'
-      preLoaderRoute: typeof AdminVerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -377,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppEventsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/emploi': {
+      id: '/app/emploi'
+      path: '/emploi'
+      fullPath: '/app/emploi'
+      preLoaderRoute: typeof AppEmploiRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/announcements': {
       id: '/app/announcements'
       path: '/announcements'
@@ -384,18 +371,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/admin/students': {
-      id: '/admin/students'
-      path: '/students'
-      fullPath: '/admin/students'
-      preLoaderRoute: typeof AdminStudentsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/grades': {
-      id: '/admin/grades'
-      path: '/grades'
-      fullPath: '/admin/grades'
-      preLoaderRoute: typeof AdminGradesRouteImport
+    '/admin/filieres': {
+      id: '/admin/filieres'
+      path: '/filieres'
+      fullPath: '/admin/filieres'
+      preLoaderRoute: typeof AdminFilieresRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/events': {
@@ -405,36 +385,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEventsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/announcements': {
-      id: '/admin/announcements'
-      path: '/announcements'
-      fullPath: '/admin/announcements'
-      preLoaderRoute: typeof AdminAnnouncementsRouteImport
+    '/admin/niveau/$niveauId': {
+      id: '/admin/niveau/$niveauId'
+      path: '/niveau/$niveauId'
+      fullPath: '/admin/niveau/$niveauId'
+      preLoaderRoute: typeof AdminNiveauNiveauIdRouteImport
       parentRoute: typeof AdminRoute
     }
   }
 }
 
 interface AdminRouteChildren {
-  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
   AdminEventsRoute: typeof AdminEventsRoute
-  AdminGradesRoute: typeof AdminGradesRoute
-  AdminStudentsRoute: typeof AdminStudentsRoute
+  AdminFilieresRoute: typeof AdminFilieresRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminNiveauNiveauIdRoute: typeof AdminNiveauNiveauIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
   AdminEventsRoute: AdminEventsRoute,
-  AdminGradesRoute: AdminGradesRoute,
-  AdminStudentsRoute: AdminStudentsRoute,
+  AdminFilieresRoute: AdminFilieresRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminNiveauNiveauIdRoute: AdminNiveauNiveauIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AppRouteChildren {
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppEmploiRoute: typeof AppEmploiRoute
   AppEventsRoute: typeof AppEventsRoute
   AppGradesRoute: typeof AppGradesRoute
   AppProfileRoute: typeof AppProfileRoute
@@ -443,6 +422,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppEmploiRoute: AppEmploiRoute,
   AppEventsRoute: AppEventsRoute,
   AppGradesRoute: AppGradesRoute,
   AppProfileRoute: AppProfileRoute,
@@ -472,7 +452,6 @@ const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  AdminVerifyRoute: AdminVerifyRoute,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   PlatformRoute: PlatformRouteWithChildren,

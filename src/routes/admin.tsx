@@ -30,10 +30,8 @@ function AdminLayout() {
 
   const nav = [
     { l: "Vue d'ensemble", to: "/admin", exact: true, i: "🏠" },
-    { l: "Étudiants", to: "/admin/students", i: "🎓" },
-    { l: "Annonces", to: "/admin/announcements", i: "📣" },
+    { l: "Filières & Niveaux", to: "/admin/filieres", i: "📚" },
     { l: "Événements", to: "/admin/events", i: "📅" },
-    { l: "Notes", to: "/admin/grades", i: "📊" },
   ];
 
   const initials = (auth.user.user_metadata?.nom_complet || auth.user.email || "?").split(" ").map((s: string)=>s[0]).slice(0,2).join("").toUpperCase();

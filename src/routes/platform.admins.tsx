@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { inviteEtablissementAdmin } from "@/lib/admin-account.functions";
+import { createEtablissementAdmin } from "@/lib/unified-auth.functions";
 
 export const Route = createFileRoute("/platform/admins")({
   component: AdminsPage,
@@ -9,37 +9,48 @@ export const Route = createFileRoute("/platform/admins")({
 });
 
 type Etab = { id: string; nom: string };
+type Admin = { id: string; email: string; nom_complet: string; date_naissance: string; statut: string; etablissement_id: string };
 
 function AdminsPage() {
   const [etabs, setEtabs] = useState<Etab[]>([]);
-  const [form, setForm] = useState({ nom_complet: "", email: "", etablissement_id: "" });
+  const [admins, setAdmins] = useState<Admin[]>([]);
+  const [form, setForm] = useState({ nom_complet: "", email: "", date_naissance: "", etablissement_id: "" });
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     supabase.from("etablissements").select("id,nom").order("nom").then(({ data }) => setEtabs(data ?? []));
+    refreshAdmins();
   }, []);
 
-  async function invite() {
+  async function refreshAdmins() {
+    const { data } = await supabase.from("admins").select("id,email,nom_complet,date_naissance,statut,etablissement_id").order("nom_complet");
+    setAdmins(data ?? []);
+  }
+
+  async function create() {
     setBusy(true);
     setMsg("");
     try {
-      await inviteEtablissementAdmin({ data: form });
-      setMsg(`✓ Invitation envoyée à ${form.email}. L'administrateur recevra un email pour créer son compte.`);
-      setForm({ nom_complet: "", email: "", etablissement_id: "" });
+      await createEtablissementAdmin({ data: form });
+      setMsg(`✓ Administrateur créé. ${form.email} pourra se connecter avec son email et sa date de naissance.`);
+      setForm({ nom_complet: "", email: "", date_naissance: "", etablissement_id: "" });
+      refreshAdmins();
     } catch (e: unknown) {
       setMsg("Erreur : " + (e instanceof Error ? e.message : "inconnue"));
     }
     setBusy(false);
   }
 
+  const etabName = (id: string) => etabs.find((e) => e.id === id)?.nom ?? "—";
+
   return (
     <div className="space-y-6">
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Comptes administrateurs</p>
-        <h1 className="mt-1 font-display text-3xl font-bold">Inviter un administrateur d'établissement</h1>
+        <h1 className="mt-1 font-display text-3xl font-bold">Créer un administrateur d'établissement</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          L'administrateur recevra un email avec un lien sécurisé pour créer son compte et définir son mot de passe.
+          L'administrateur se connectera avec son email et sa date de naissance, puis recevra un code OTP par email.
         </p>
       </div>
 
@@ -51,9 +62,7 @@ function AdminsPage() {
         >
           <option value="">— Établissement —</option>
           {etabs.map((e) => (
-            <option key={e.id} value={e.id}>
-              {e.nom}
-            </option>
+            <option key={e.id} value={e.id}>{e.nom}</option>
           ))}
         </select>
         <input
@@ -69,25 +78,49 @@ function AdminsPage() {
           placeholder="Email professionnel"
           className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
         />
+        <input
+          type="date"
+          value={form.date_naissance}
+          onChange={(e) => setForm({ ...form, date_naissance: e.target.value })}
+          placeholder="Date de naissance"
+          className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        />
         <button
-          disabled={busy || !form.etablissement_id || !form.email || !form.nom_complet}
-          onClick={invite}
+          disabled={busy || !form.etablissement_id || !form.email || !form.nom_complet || !form.date_naissance}
+          onClick={create}
           className="w-full rounded-lg bg-primary py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
         >
-          {busy ? "Envoi…" : "Envoyer l'invitation"}
+          {busy ? "Création…" : "Créer l'administrateur"}
         </button>
         {msg && <p className="text-xs">{msg}</p>}
       </div>
 
-      <div className="max-w-xl rounded-2xl border border-dashed border-border bg-muted/30 p-6">
-        <h3 className="font-display text-sm font-semibold">Processus de création</h3>
-        <ol className="mt-3 space-y-2 text-xs text-muted-foreground">
-          <li>1. Vous envoyez l'invitation avec le nom et l'email de l'administrateur</li>
-          <li>2. L'administrateur reçoit un email avec un lien sécurisé</li>
-          <li>3. Il confirme son identité (nom complet + date de naissance)</li>
-          <li>4. Il définit son propre mot de passe</li>
-          <li>5. Son compte est activé et il peut accéder à son espace</li>
-        </ol>
+      <div className="rounded-2xl border border-border bg-surface">
+        <p className="border-b border-border p-4 font-display text-sm font-semibold">Administrateurs existants</p>
+        {admins.length === 0 ? (
+          <p className="p-8 text-center text-sm text-muted-foreground">Aucun administrateur créé.</p>
+        ) : (
+          <table className="w-full text-sm">
+            <thead className="bg-muted/60 text-xs uppercase text-muted-foreground">
+              <tr>
+                <th className="px-5 py-3 text-left">Nom</th>
+                <th className="px-5 py-3 text-left">Email</th>
+                <th className="px-5 py-3 text-left">Établissement</th>
+                <th className="px-5 py-3 text-left">Statut</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {admins.map((a) => (
+                <tr key={a.id}>
+                  <td className="px-5 py-3 font-semibold">{a.nom_complet}</td>
+                  <td className="px-5 py-3 text-xs">{a.email}</td>
+                  <td className="px-5 py-3 text-xs text-muted-foreground">{etabName(a.etablissement_id)}</td>
+                  <td className="px-5 py-3"><span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">{a.statut}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
