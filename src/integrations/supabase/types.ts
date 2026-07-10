@@ -49,6 +49,47 @@ export type Database = {
           },
         ]
       }
+      admins: {
+        Row: {
+          created_at: string
+          date_naissance: string
+          email: string
+          etablissement_id: string
+          id: string
+          nom_complet: string
+          statut: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          date_naissance: string
+          email: string
+          etablissement_id: string
+          id?: string
+          nom_complet: string
+          statut?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          date_naissance?: string
+          email?: string
+          etablissement_id?: string
+          id?: string
+          nom_complet?: string
+          statut?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admins_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       annonces: {
         Row: {
           auteur: string | null
@@ -645,6 +686,33 @@ export type Database = {
           },
         ]
       }
+      super_admins: {
+        Row: {
+          created_at: string
+          date_naissance: string
+          email: string
+          id: string
+          nom_complet: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          date_naissance: string
+          email: string
+          id?: string
+          nom_complet: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          date_naissance?: string
+          email?: string
+          id?: string
+          nom_complet?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -693,6 +761,16 @@ export type Database = {
       is_admin_of: {
         Args: { _etablissement_id: string; _user_id: string }
         Returns: boolean
+      }
+      lookup_user_by_email_birthdate: {
+        Args: { _date_naissance: string; _email: string }
+        Returns: {
+          etablissement_id: string
+          filiere_id: string
+          niveau_id: string
+          nom_complet: string
+          role: string
+        }[]
       }
       verify_student_identity: {
         Args: {
