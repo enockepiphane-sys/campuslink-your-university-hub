@@ -74,10 +74,10 @@ function NiveauDetailPage() {
         ))}
       </div>
 
-      {tab === "students" && <StudentsTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id} />}
-      {tab === "annonces" && <AnnoncesTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id} />}
-      {tab === "emploi" && <EmploiTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id} />}
-      {tab === "notes" && <NotesTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id} />}
+      {tab === "students" && <StudentsTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id ?? ""} />}
+      {tab === "annonces" && <AnnoncesTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id ?? ""} />}
+      {tab === "emploi" && <EmploiTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id ?? ""} />}
+      {tab === "notes" && <NotesTab niveauId={niveauId} eid={eid} filiereId={niveau.filiere_id ?? ""} />}
     </div>
   );
 }
