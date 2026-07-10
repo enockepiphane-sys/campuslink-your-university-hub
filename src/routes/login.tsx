@@ -32,9 +32,12 @@ function LoginPage() {
     return () => clearInterval(t);
   }, [step, expiresAt]);
 
+  useEffect(() => {
+    if (!auth.loading && auth.user && auth.role) {
       navigate({ to: roleHomePath(auth.role) });
     }
   }, [auth.loading, auth.user, auth.role, navigate]);
+
 
   async function sendOtp(e: React.FormEvent) {
     e.preventDefault();
