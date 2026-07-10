@@ -76,9 +76,16 @@ function LoginPage() {
       return;
     }
 
+    setExpiresAt(Date.now() + 10 * 60 * 1000); // code valide 10 min côté UI
+    setOtp("");
     setStep("otp");
     setBusy(false);
   }
+
+  const secondsLeft = expiresAt ? Math.max(0, Math.floor((expiresAt - now) / 1000)) : 0;
+  const isExpired = step === "otp" && expiresAt !== null && secondsLeft === 0;
+  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+  const ss = String(secondsLeft % 60).padStart(2, "0");
 
   async function verifyOtp(e: React.FormEvent) {
     e.preventDefault();
