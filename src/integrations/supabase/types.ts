@@ -96,7 +96,9 @@ export type Database = {
           contenu: string
           created_at: string
           etablissement_id: string
+          filiere_id: string | null
           id: string
+          niveau_id: string | null
           tag: string | null
           titre: string
           urgent: boolean | null
@@ -106,7 +108,9 @@ export type Database = {
           contenu: string
           created_at?: string
           etablissement_id: string
+          filiere_id?: string | null
           id?: string
+          niveau_id?: string | null
           tag?: string | null
           titre: string
           urgent?: boolean | null
@@ -116,7 +120,9 @@ export type Database = {
           contenu?: string
           created_at?: string
           etablissement_id?: string
+          filiere_id?: string | null
           id?: string
+          niveau_id?: string | null
           tag?: string | null
           titre?: string
           urgent?: boolean | null
@@ -127,6 +133,20 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_filiere_id_fkey"
+            columns: ["filiere_id"]
+            isOneToOne: false
+            referencedRelation: "filieres"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_niveau_id_fkey"
+            columns: ["niveau_id"]
+            isOneToOne: false
+            referencedRelation: "niveaux"
             referencedColumns: ["id"]
           },
         ]
@@ -542,6 +562,7 @@ export type Database = {
         Row: {
           created_at: string
           etablissement_id: string
+          filiere_id: string | null
           id: string
           nom: string
           ordre: number | null
@@ -549,6 +570,7 @@ export type Database = {
         Insert: {
           created_at?: string
           etablissement_id: string
+          filiere_id?: string | null
           id?: string
           nom: string
           ordre?: number | null
@@ -556,6 +578,7 @@ export type Database = {
         Update: {
           created_at?: string
           etablissement_id?: string
+          filiere_id?: string | null
           id?: string
           nom?: string
           ordre?: number | null
@@ -566,6 +589,13 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "niveaux_filiere_id_fkey"
+            columns: ["filiere_id"]
+            isOneToOne: false
+            referencedRelation: "filieres"
             referencedColumns: ["id"]
           },
         ]
