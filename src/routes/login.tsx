@@ -207,18 +207,22 @@ function LoginPage() {
               <p className="mt-1 text-sm text-muted-foreground">
                 Un code de vérification a été envoyé à <span className="font-medium text-foreground">{email}</span>
               </p>
+              <p className={`mt-2 text-xs font-medium ${isExpired ? "text-red-600" : "text-muted-foreground"}`}>
+                {isExpired ? "Code expiré — renvoyez un nouveau code." : `Ce code expire dans ${mm}:${ss}`}
+              </p>
               <form className="mt-6 space-y-4" onSubmit={verifyOtp}>
                 <input
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                   placeholder="Code à 6 chiffres"
                   maxLength={6}
-                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-center text-2xl tracking-widest"
+                  disabled={isExpired}
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-center text-2xl tracking-widest disabled:opacity-50"
                 />
                 {error && <p className="text-xs text-red-600">{error}</p>}
                 <button
                   type="submit"
-                  disabled={otp.length !== 6 || busy}
+                  disabled={otp.length !== 6 || busy || isExpired}
                   className="w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
                 >
                   {busy ? "Vérification…" : "Confirmer et se connecter"}
