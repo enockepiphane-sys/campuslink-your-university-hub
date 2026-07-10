@@ -11,7 +11,7 @@ export const Route = createFileRoute("/admin/niveau/$niveauId")({
 
 type Tab = "students" | "annonces" | "emploi" | "notes";
 
-type Niveau = { id: string; nom: string; filiere_id: string; etablissement_id: string };
+type Niveau = { id: string; nom: string; filiere_id: string | null; etablissement_id: string };
 type Filiere = { id: string; nom: string };
 type Etudiant = { id: string; nom_complet: string; email: string | null; matricule: string | null; date_naissance: string | null };
 type Annonce = { id: string; titre: string; contenu: string; tag: string | null; urgent: boolean | null; created_at: string };
