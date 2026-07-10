@@ -9,7 +9,7 @@ export const Route = createFileRoute("/app/")({
   head: () => ({ meta: [{ title: "Accueil — CampusLink" }] }),
 });
 
-type Etudiant = { nom_complet: string; etablissement_id: string; filiere_id: string; niveau_id: string };
+type Etudiant = { nom_complet: string; etablissement_id: string; filiere_id: string | null; niveau_id: string | null };
 type Etab = { nom: string };
 type A = { id: string; titre: string; contenu: string; tag: string | null; urgent: boolean | null; created_at: string };
 type Ev = { id: string; titre: string; date_evt: string | null; lieu: string | null };
