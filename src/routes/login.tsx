@@ -23,9 +23,15 @@ function LoginPage() {
   const [date_naissance, setDate] = useState("");
   const [otp, setOtp] = useState("");
   const [detectedRole, setDetectedRole] = useState<string | null>(null);
+  const [expiresAt, setExpiresAt] = useState<number | null>(null);
+  const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
-    if (!auth.loading && auth.user && auth.role) {
+    if (step !== "otp" || !expiresAt) return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [step, expiresAt]);
+
       navigate({ to: roleHomePath(auth.role) });
     }
   }, [auth.loading, auth.user, auth.role, navigate]);
