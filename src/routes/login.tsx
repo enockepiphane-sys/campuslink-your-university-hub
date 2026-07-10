@@ -23,12 +23,21 @@ function LoginPage() {
   const [date_naissance, setDate] = useState("");
   const [otp, setOtp] = useState("");
   const [detectedRole, setDetectedRole] = useState<string | null>(null);
+  const [expiresAt, setExpiresAt] = useState<number | null>(null);
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    if (step !== "otp" || !expiresAt) return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [step, expiresAt]);
 
   useEffect(() => {
     if (!auth.loading && auth.user && auth.role) {
       navigate({ to: roleHomePath(auth.role) });
     }
   }, [auth.loading, auth.user, auth.role, navigate]);
+
 
   async function sendOtp(e: React.FormEvent) {
     e.preventDefault();
@@ -67,12 +76,23 @@ function LoginPage() {
       return;
     }
 
+    setExpiresAt(Date.now() + 10 * 60 * 1000); // code valide 10 min côté UI
+    setOtp("");
     setStep("otp");
     setBusy(false);
   }
 
+  const secondsLeft = expiresAt ? Math.max(0, Math.floor((expiresAt - now) / 1000)) : 0;
+  const isExpired = step === "otp" && expiresAt !== null && secondsLeft === 0;
+  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+  const ss = String(secondsLeft % 60).padStart(2, "0");
+
   async function verifyOtp(e: React.FormEvent) {
     e.preventDefault();
+    if (isExpired) {
+      setError("Le code a expiré. Renvoyez un nouveau code.");
+      return;
+    }
     setBusy(true);
     setError("");
 
@@ -187,18 +207,22 @@ function LoginPage() {
               <p className="mt-1 text-sm text-muted-foreground">
                 Un code de vérification a été envoyé à <span className="font-medium text-foreground">{email}</span>
               </p>
+              <p className={`mt-2 text-xs font-medium ${isExpired ? "text-red-600" : "text-muted-foreground"}`}>
+                {isExpired ? "Code expiré — renvoyez un nouveau code." : `Ce code expire dans ${mm}:${ss}`}
+              </p>
               <form className="mt-6 space-y-4" onSubmit={verifyOtp}>
                 <input
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                   placeholder="Code à 6 chiffres"
                   maxLength={6}
-                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-center text-2xl tracking-widest"
+                  disabled={isExpired}
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-center text-2xl tracking-widest disabled:opacity-50"
                 />
                 {error && <p className="text-xs text-red-600">{error}</p>}
                 <button
                   type="submit"
-                  disabled={otp.length !== 6 || busy}
+                  disabled={otp.length !== 6 || busy || isExpired}
                   className="w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
                 >
                   {busy ? "Vérification…" : "Confirmer et se connecter"}

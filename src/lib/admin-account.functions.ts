@@ -93,22 +93,10 @@ export const verifyAdminOTP = createServerFn({ method: "POST" })
     return { verified: true, etablissement_id: role.etablissement_id };
   });
 
-/**
- * Bootstrap : promeut l'utilisateur courant en super_admin si aucun n'existe.
- * Sert à créer le tout premier compte de la plateforme.
- */
-export const claimSuperAdminIfEmpty = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { count } = await supabaseAdmin.from("user_roles").select("*", { count: "exact", head: true }).eq("role", "super_admin");
-    if ((count ?? 0) > 0) return { claimed: false };
-    const { error } = await supabaseAdmin.from("user_roles").insert({
-      user_id: context.userId, role: "super_admin",
-    });
-    if (error) throw new Error(error.message);
-    return { claimed: true };
-  });
+// Note: la fonction `claimSuperAdminIfEmpty` a été supprimée pour éviter
+// l'auto-promotion du premier compte en super_admin. Les super_admins sont
+// désormais provisionnés uniquement via la table `super_admins` (seed / migration).
+
 
 /**
  * Finalise l'inscription d'un étudiant après vérification de son identité.
