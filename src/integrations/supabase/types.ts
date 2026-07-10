@@ -47,6 +47,13 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "activity_logs_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       admins: {
@@ -86,6 +93,13 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admins_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
         ]
@@ -133,6 +147,13 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
           {
@@ -230,6 +251,13 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "emplois_du_temps_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
           {
@@ -351,6 +379,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "etudiants_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "etudiants_filiere_id_fkey"
             columns: ["filiere_id"]
             isOneToOne: false
@@ -408,6 +443,13 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "evenements_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       filieres: {
@@ -435,6 +477,13 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "filieres_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
         ]
@@ -482,6 +531,13 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "liste_officielle_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
           {
@@ -543,6 +599,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "matieres_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "matieres_filiere_id_fkey"
             columns: ["filiere_id"]
             isOneToOne: false
@@ -589,6 +652,13 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "niveaux_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
           {
@@ -714,6 +784,13 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "profiles_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       super_admins: {
@@ -773,11 +850,56 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "user_roles_etablissement_id_fkey"
+            columns: ["etablissement_id"]
+            isOneToOne: false
+            referencedRelation: "etablissements_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      etablissements_public: {
+        Row: {
+          categorie:
+            | Database["public"]["Enums"]["etablissement_categorie"]
+            | null
+          description: string | null
+          id: string | null
+          logo_url: string | null
+          nom: string | null
+          pays: string | null
+          statut: Database["public"]["Enums"]["etablissement_statut"] | null
+          ville: string | null
+        }
+        Insert: {
+          categorie?:
+            | Database["public"]["Enums"]["etablissement_categorie"]
+            | null
+          description?: string | null
+          id?: string | null
+          logo_url?: string | null
+          nom?: string | null
+          pays?: string | null
+          statut?: Database["public"]["Enums"]["etablissement_statut"] | null
+          ville?: string | null
+        }
+        Update: {
+          categorie?:
+            | Database["public"]["Enums"]["etablissement_categorie"]
+            | null
+          description?: string | null
+          id?: string | null
+          logo_url?: string | null
+          nom?: string | null
+          pays?: string | null
+          statut?: Database["public"]["Enums"]["etablissement_statut"] | null
+          ville?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       current_etablissement_id: { Args: never; Returns: string }
