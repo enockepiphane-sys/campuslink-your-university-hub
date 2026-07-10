@@ -89,6 +89,10 @@ function LoginPage() {
 
   async function verifyOtp(e: React.FormEvent) {
     e.preventDefault();
+    if (isExpired) {
+      setError("Le code a expiré. Renvoyez un nouveau code.");
+      return;
+    }
     setBusy(true);
     setError("");
 
