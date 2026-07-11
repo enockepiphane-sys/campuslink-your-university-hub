@@ -9,19 +9,52 @@ export const Route = createFileRoute("/cours-en-ligne")({
 });
 
 function CoursEnLignePage() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background">
       <KenteBar />
       <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
           <Logo />
-          <Link to="/" className="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Retour
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link to="/" className="hidden items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground md:flex">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Retour
+            </Link>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu Cours en ligne"
+              className="grid h-10 w-10 place-items-center rounded-lg border border-border bg-surface"
+            >
+              {menuOpen ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M6 18L18 6"/></svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+              )}
+            </button>
+          </div>
         </div>
+        {menuOpen && (
+          <div className="border-t border-border bg-surface">
+            <nav className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Cours en ligne</p>
+              <Link to="/login/etudiant" onClick={() => setMenuOpen(false)} className="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground">
+                🎓 Étudiants — Accéder aux cours en ligne
+              </Link>
+              <Link to="/professeur" onClick={() => setMenuOpen(false)} className="rounded-xl bg-terracotta px-4 py-3 text-sm font-semibold text-white">
+                👨‍🏫 Professeurs — Accéder à mon espace cours
+              </Link>
+              <a href="#espace-professeur" onClick={() => setMenuOpen(false)} className="rounded-xl border border-border px-4 py-3 text-sm font-medium text-foreground">
+                ✍️ Devenir professeur CampusLink
+              </a>
+              <Link to="/" onClick={() => setMenuOpen(false)} className="rounded-xl border border-border px-4 py-3 text-center text-sm font-medium text-muted-foreground">
+                ← Retour à l'accueil
+              </Link>
+            </nav>
+          </div>
+        )}
       </header>
 
       <section className="mx-auto max-w-7xl px-6 py-16">
@@ -30,26 +63,9 @@ function CoursEnLignePage() {
         <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
           Accédez à des cours en vidéo proposés par des professeurs qualifiés. Paiement via Orange Money, Moov Money ou carte bancaire.
         </p>
-
-        {/* Two access buttons */}
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl border border-border bg-surface p-6">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gold/20 text-2xl">🎓</div>
-            <h3 className="mt-4 font-display text-lg font-semibold">Étudiants — Accéder aux cours</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Consultez le catalogue des cours disponibles, filtrable par matière et niveau. Achat sécurisé via Mobile Money ou carte bancaire.</p>
-            <Link to="/login/etudiant" className="mt-4 inline-flex rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">
-              Accéder aux cours →
-            </Link>
-          </div>
-          <div className="rounded-3xl border border-border bg-surface p-6">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-terracotta/20 text-2xl">👨‍🏫</div>
-            <h3 className="mt-4 font-display text-lg font-semibold">Professeurs — Mon espace cours</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Accédez à votre espace pour gérer vos cours en ligne et consulter vos revenus. Uniquement pour les professeurs validés par l'administration.</p>
-            <Link to="/login/etudiant" className="mt-4 inline-flex rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-white">
-              Accéder à mon espace →
-            </Link>
-          </div>
-        </div>
+        <p className="mt-6 text-xs text-muted-foreground">
+          Utilisez le menu ☰ en haut à droite pour accéder à l'espace étudiant ou à l'espace professeur.
+        </p>
 
         <ProfessorApplicationForm />
       </section>
