@@ -27,14 +27,69 @@ export const checkStudentEmailExists = createServerFn({ method: "POST" })
   });
 
 /**
- * Student registration: signs up via supabase.auth.signUp, then creates
- * profile, user_roles, and etudiants row.
+ * Verify student against the official pre-registration list, and detect if
+ * they are already registered. Called BEFORE the password creation step.
+ */
+export const verifyStudentInList = createServerFn({ method: "POST" })
+  .validator((input: unknown) =>
+    z.object({
+      etablissement_id: z.string().uuid(),
+      filiere_id: z.string().uuid(),
+      niveau_id: z.string().uuid(),
+      nom_complet: z.string().min(1),
+      email: z.string().email(),
+      date_naissance: z.string(),
+    }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // 1. Check if email is already registered in auth.users
+    const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
+    const emailExists = (userList?.users ?? []).some(
+      (u) => u.email?.toLowerCase() === data.email.toLowerCase(),
+    );
+    if (emailExists) {
+      return { status: "already_registered" as const };
+    }
+
+    // 2. Check the official list for matching nom_complet + date + etab/filiere/niveau
+    //    Email is also matched when present in the official list (case-insensitive).
+    const { data: rows, error } = await supabaseAdmin.from("liste_officielle")
+      .select("id, email, nom_complet, date_naissance, utilise")
+      .eq("etablissement_id", data.etablissement_id)
+      .eq("filiere_id", data.filiere_id)
+      .eq("niveau_id", data.niveau_id)
+      .eq("date_naissance", data.date_naissance);
+    if (error) throw new Error(error.message);
+
+    const normalizedName = data.nom_complet.toLowerCase().trim();
+    const normalizedEmail = data.email.toLowerCase().trim();
+    const match = (rows ?? []).find((r) => {
+      const nameOk = (r.nom_complet ?? "").toLowerCase().trim() === normalizedName;
+      const emailOk = !r.email || r.email.toLowerCase().trim() === normalizedEmail;
+      return nameOk && emailOk;
+    });
+
+    if (!match) {
+      return { status: "not_in_list" as const };
+    }
+
+    return { status: "authorized" as const, liste_id: match.id };
+  });
+
+/**
+ * Student registration: creates auth user with password, then profile,
+ * user_roles, and etudiants row. Requires prior verification via
+ * verifyStudentInList.
  */
 export const registerStudent = createServerFn({ method: "POST" })
   .validator((input: unknown) =>
     z.object({
       email: z.string().email(),
       password: z.string().min(6),
+      nom_complet: z.string().min(1),
+      date_naissance: z.string(),
       etablissement_id: z.string().uuid(),
       filiere_id: z.string().uuid(),
       niveau_id: z.string().uuid(),
@@ -68,6 +123,8 @@ export const registerStudent = createServerFn({ method: "POST" })
     await supabaseAdmin.from("profiles").upsert({
       id: userId,
       email: data.email,
+      nom_complet: data.nom_complet,
+      date_naissance: data.date_naissance,
       etablissement_id: data.etablissement_id,
     }, { onConflict: "id" });
 
@@ -86,11 +143,20 @@ export const registerStudent = createServerFn({ method: "POST" })
       filiere_id: data.filiere_id,
       niveau_id: data.niveau_id,
       email: data.email,
-      nom_complet: "",
-      date_naissance: "1900-01-01",
+      nom_complet: data.nom_complet,
+      date_naissance: data.date_naissance,
       statut: "actif",
     });
     if (etuErr) throw new Error(etuErr.message);
+
+    // Mark liste_officielle entry as used
+    await supabaseAdmin.from("liste_officielle")
+      .update({ utilise: true })
+      .eq("etablissement_id", data.etablissement_id)
+      .eq("filiere_id", data.filiere_id)
+      .eq("niveau_id", data.niveau_id)
+      .eq("date_naissance", data.date_naissance)
+      .ilike("nom_complet", data.nom_complet.trim());
 
     return { created: true, user_id: userId };
   });
