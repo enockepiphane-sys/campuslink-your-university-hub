@@ -25,14 +25,32 @@ function LoginChoicePage() {
         <div className="mb-8 flex justify-center"><Logo /></div>
         <div className="rounded-3xl border border-border bg-surface p-8 shadow-card">
           <h1 className="text-center font-display text-2xl font-bold">Bienvenue sur CampusLink</h1>
-          <p className="mt-2 text-center text-sm text-muted-foreground">Choisissez votre type de connexion pour continuer.</p>
-          <div className="mt-8 space-y-3">
-            <Link to="/login/etudiant" className="block w-full rounded-xl bg-primary py-4 text-center text-sm font-semibold text-primary-foreground shadow-elegant transition hover:opacity-95">
-              Se connecter au compte étudiant
-            </Link>
-            <Link to="/login/admin" className="block w-full rounded-xl border border-border bg-background py-4 text-center text-sm font-semibold text-foreground transition hover:bg-muted">
-              Accéder au compte professionnel
-            </Link>
+          <p className="mt-2 text-center text-sm text-muted-foreground">Choisissez le bouton correspondant à votre situation.</p>
+
+          <div className="mt-8 space-y-6">
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-terracotta">Espace étudiant</p>
+              <div className="space-y-3">
+                <Link to="/login/etudiant/inscription" className="block w-full rounded-xl bg-primary py-4 text-center text-sm font-semibold text-primary-foreground shadow-elegant transition hover:opacity-95">
+                  S'inscrire au compte étudiant
+                </Link>
+                <Link to="/login/etudiant" className="block w-full rounded-xl border border-border bg-background py-4 text-center text-sm font-semibold text-foreground transition hover:bg-muted">
+                  Se connecter au compte étudiant
+                </Link>
+              </div>
+            </div>
+
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-terracotta">Espace administrateur</p>
+              <div className="space-y-3">
+                <Link to="/login/admin/inscription" className="block w-full rounded-xl bg-primary py-4 text-center text-sm font-semibold text-primary-foreground shadow-elegant transition hover:opacity-95">
+                  S'inscrire à mon compte administrateur
+                </Link>
+                <Link to="/login/admin" className="block w-full rounded-xl border border-border bg-background py-4 text-center text-sm font-semibold text-foreground transition hover:bg-muted">
+                  Se connecter à mon compte administrateur
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
         <p className="mt-6 text-center text-xs text-muted-foreground">© CampusLink — Plateforme du Burkina Faso</p>
