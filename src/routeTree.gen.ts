@@ -9,57 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SuperAdminAccesRouteImport } from './routes/super-admin-acces'
-import { Route as ProfesseurRouteImport } from './routes/professeur'
-import { Route as PolitiqueConfidentialiteRouteImport } from './routes/politique-confidentialite'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as FonctionnalitesRouteImport } from './routes/fonctionnalites'
-import { Route as CoursEnLigneRouteImport } from './routes/cours-en-ligne'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfesseurIndexRouteImport } from './routes/professeur.index'
 import { Route as PlatformIndexRouteImport } from './routes/platform.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as ProfesseurRevenusRouteImport } from './routes/professeur.revenus'
-import { Route as ProfesseurNouveauRouteImport } from './routes/professeur.nouveau'
-import { Route as PlatformProfesseursRouteImport } from './routes/platform.professeurs'
 import { Route as PlatformPartenariatsRouteImport } from './routes/platform.partenariats'
-import { Route as PlatformParametresRouteImport } from './routes/platform.parametres'
 import { Route as PlatformEtablissementsRouteImport } from './routes/platform.etablissements'
-import { Route as PlatformCoursRouteImport } from './routes/platform.cours'
 import { Route as PlatformAdminsRouteImport } from './routes/platform.admins'
-import { Route as LoginEtudiantRouteImport } from './routes/login.etudiant'
-import { Route as LoginAdminRouteImport } from './routes/login.admin'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppGradesRouteImport } from './routes/app.grades'
 import { Route as AppEventsRouteImport } from './routes/app.events'
-import { Route as AppEmploiRouteImport } from './routes/app.emploi'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
-import { Route as AdminFilieresRouteImport } from './routes/admin.filieres'
+import { Route as AdminStudentsRouteImport } from './routes/admin.students'
+import { Route as AdminGradesRouteImport } from './routes/admin.grades'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
-import { Route as LoginEtudiantInscriptionRouteImport } from './routes/login.etudiant.inscription'
-import { Route as LoginAdminInscriptionRouteImport } from './routes/login.admin.inscription'
-import { Route as AdminNiveauNiveauIdRouteImport } from './routes/admin.niveau.$niveauId'
+import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
-const SuperAdminAccesRoute = SuperAdminAccesRouteImport.update({
-  id: '/super-admin-acces',
-  path: '/super-admin-acces',
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfesseurRoute = ProfesseurRouteImport.update({
-  id: '/professeur',
-  path: '/professeur',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PolitiqueConfidentialiteRoute =
-  PolitiqueConfidentialiteRouteImport.update({
-    id: '/politique-confidentialite',
-    path: '/politique-confidentialite',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
@@ -68,16 +43,6 @@ const PlatformRoute = PlatformRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FonctionnalitesRoute = FonctionnalitesRouteImport.update({
-  id: '/fonctionnalites',
-  path: '/fonctionnalites',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CoursEnLigneRoute = CoursEnLigneRouteImport.update({
-  id: '/cours-en-ligne',
-  path: '/cours-en-ligne',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -95,11 +60,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfesseurIndexRoute = ProfesseurIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProfesseurRoute,
-} as any)
 const PlatformIndexRoute = PlatformIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -115,29 +75,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const ProfesseurRevenusRoute = ProfesseurRevenusRouteImport.update({
-  id: '/revenus',
-  path: '/revenus',
-  getParentRoute: () => ProfesseurRoute,
-} as any)
-const ProfesseurNouveauRoute = ProfesseurNouveauRouteImport.update({
-  id: '/nouveau',
-  path: '/nouveau',
-  getParentRoute: () => ProfesseurRoute,
-} as any)
-const PlatformProfesseursRoute = PlatformProfesseursRouteImport.update({
-  id: '/professeurs',
-  path: '/professeurs',
-  getParentRoute: () => PlatformRoute,
-} as any)
 const PlatformPartenariatsRoute = PlatformPartenariatsRouteImport.update({
   id: '/partenariats',
   path: '/partenariats',
-  getParentRoute: () => PlatformRoute,
-} as any)
-const PlatformParametresRoute = PlatformParametresRouteImport.update({
-  id: '/parametres',
-  path: '/parametres',
   getParentRoute: () => PlatformRoute,
 } as any)
 const PlatformEtablissementsRoute = PlatformEtablissementsRouteImport.update({
@@ -145,25 +85,10 @@ const PlatformEtablissementsRoute = PlatformEtablissementsRouteImport.update({
   path: '/etablissements',
   getParentRoute: () => PlatformRoute,
 } as any)
-const PlatformCoursRoute = PlatformCoursRouteImport.update({
-  id: '/cours',
-  path: '/cours',
-  getParentRoute: () => PlatformRoute,
-} as any)
 const PlatformAdminsRoute = PlatformAdminsRouteImport.update({
   id: '/admins',
   path: '/admins',
   getParentRoute: () => PlatformRoute,
-} as any)
-const LoginEtudiantRoute = LoginEtudiantRouteImport.update({
-  id: '/etudiant',
-  path: '/etudiant',
-  getParentRoute: () => LoginRoute,
-} as any)
-const LoginAdminRoute = LoginAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => LoginRoute,
 } as any)
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
@@ -180,19 +105,19 @@ const AppEventsRoute = AppEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AppRoute,
 } as any)
-const AppEmploiRoute = AppEmploiRouteImport.update({
-  id: '/emploi',
-  path: '/emploi',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   id: '/announcements',
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
-const AdminFilieresRoute = AdminFilieresRouteImport.update({
-  id: '/filieres',
-  path: '/filieres',
+const AdminStudentsRoute = AdminStudentsRouteImport.update({
+  id: '/students',
+  path: '/students',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGradesRoute = AdminGradesRouteImport.update({
+  id: '/grades',
+  path: '/grades',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminEventsRoute = AdminEventsRouteImport.update({
@@ -200,20 +125,9 @@ const AdminEventsRoute = AdminEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AdminRoute,
 } as any)
-const LoginEtudiantInscriptionRoute =
-  LoginEtudiantInscriptionRouteImport.update({
-    id: '/inscription',
-    path: '/inscription',
-    getParentRoute: () => LoginEtudiantRoute,
-  } as any)
-const LoginAdminInscriptionRoute = LoginAdminInscriptionRouteImport.update({
-  id: '/inscription',
-  path: '/inscription',
-  getParentRoute: () => LoginAdminRoute,
-} as any)
-const AdminNiveauNiveauIdRoute = AdminNiveauNiveauIdRouteImport.update({
-  id: '/niveau/$niveauId',
-  path: '/niveau/$niveauId',
+const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -221,106 +135,65 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
-  '/cours-en-ligne': typeof CoursEnLigneRoute
-  '/fonctionnalites': typeof FonctionnalitesRoute
-  '/login': typeof LoginRouteWithChildren
+  '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
-  '/politique-confidentialite': typeof PolitiqueConfidentialiteRoute
-  '/professeur': typeof ProfesseurRouteWithChildren
-  '/super-admin-acces': typeof SuperAdminAccesRoute
+  '/register': typeof RegisterRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
-  '/admin/filieres': typeof AdminFilieresRoute
+  '/admin/grades': typeof AdminGradesRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
-  '/app/emploi': typeof AppEmploiRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
-  '/login/admin': typeof LoginAdminRouteWithChildren
-  '/login/etudiant': typeof LoginEtudiantRouteWithChildren
   '/platform/admins': typeof PlatformAdminsRoute
-  '/platform/cours': typeof PlatformCoursRoute
   '/platform/etablissements': typeof PlatformEtablissementsRoute
-  '/platform/parametres': typeof PlatformParametresRoute
   '/platform/partenariats': typeof PlatformPartenariatsRoute
-  '/platform/professeurs': typeof PlatformProfesseursRoute
-  '/professeur/nouveau': typeof ProfesseurNouveauRoute
-  '/professeur/revenus': typeof ProfesseurRevenusRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
-  '/professeur/': typeof ProfesseurIndexRoute
-  '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
-  '/login/admin/inscription': typeof LoginAdminInscriptionRoute
-  '/login/etudiant/inscription': typeof LoginEtudiantInscriptionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cours-en-ligne': typeof CoursEnLigneRoute
-  '/fonctionnalites': typeof FonctionnalitesRoute
-  '/login': typeof LoginRouteWithChildren
-  '/politique-confidentialite': typeof PolitiqueConfidentialiteRoute
-  '/super-admin-acces': typeof SuperAdminAccesRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
-  '/admin/filieres': typeof AdminFilieresRoute
+  '/admin/grades': typeof AdminGradesRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
-  '/app/emploi': typeof AppEmploiRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
-  '/login/admin': typeof LoginAdminRouteWithChildren
-  '/login/etudiant': typeof LoginEtudiantRouteWithChildren
   '/platform/admins': typeof PlatformAdminsRoute
-  '/platform/cours': typeof PlatformCoursRoute
   '/platform/etablissements': typeof PlatformEtablissementsRoute
-  '/platform/parametres': typeof PlatformParametresRoute
   '/platform/partenariats': typeof PlatformPartenariatsRoute
-  '/platform/professeurs': typeof PlatformProfesseursRoute
-  '/professeur/nouveau': typeof ProfesseurNouveauRoute
-  '/professeur/revenus': typeof ProfesseurRevenusRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/platform': typeof PlatformIndexRoute
-  '/professeur': typeof ProfesseurIndexRoute
-  '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
-  '/login/admin/inscription': typeof LoginAdminInscriptionRoute
-  '/login/etudiant/inscription': typeof LoginEtudiantInscriptionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
-  '/cours-en-ligne': typeof CoursEnLigneRoute
-  '/fonctionnalites': typeof FonctionnalitesRoute
-  '/login': typeof LoginRouteWithChildren
+  '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
-  '/politique-confidentialite': typeof PolitiqueConfidentialiteRoute
-  '/professeur': typeof ProfesseurRouteWithChildren
-  '/super-admin-acces': typeof SuperAdminAccesRoute
+  '/register': typeof RegisterRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
-  '/admin/filieres': typeof AdminFilieresRoute
+  '/admin/grades': typeof AdminGradesRoute
+  '/admin/students': typeof AdminStudentsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
-  '/app/emploi': typeof AppEmploiRoute
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
-  '/login/admin': typeof LoginAdminRouteWithChildren
-  '/login/etudiant': typeof LoginEtudiantRouteWithChildren
   '/platform/admins': typeof PlatformAdminsRoute
-  '/platform/cours': typeof PlatformCoursRoute
   '/platform/etablissements': typeof PlatformEtablissementsRoute
-  '/platform/parametres': typeof PlatformParametresRoute
   '/platform/partenariats': typeof PlatformPartenariatsRoute
-  '/platform/professeurs': typeof PlatformProfesseursRoute
-  '/professeur/nouveau': typeof ProfesseurNouveauRoute
-  '/professeur/revenus': typeof ProfesseurRevenusRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
-  '/professeur/': typeof ProfesseurIndexRoute
-  '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
-  '/login/admin/inscription': typeof LoginAdminInscriptionRoute
-  '/login/etudiant/inscription': typeof LoginEtudiantInscriptionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -328,141 +201,82 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/app'
-    | '/cours-en-ligne'
-    | '/fonctionnalites'
     | '/login'
     | '/platform'
-    | '/politique-confidentialite'
-    | '/professeur'
-    | '/super-admin-acces'
+    | '/register'
+    | '/admin/announcements'
     | '/admin/events'
-    | '/admin/filieres'
+    | '/admin/grades'
+    | '/admin/students'
     | '/app/announcements'
-    | '/app/emploi'
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
-    | '/login/admin'
-    | '/login/etudiant'
     | '/platform/admins'
-    | '/platform/cours'
     | '/platform/etablissements'
-    | '/platform/parametres'
     | '/platform/partenariats'
-    | '/platform/professeurs'
-    | '/professeur/nouveau'
-    | '/professeur/revenus'
     | '/admin/'
     | '/app/'
     | '/platform/'
-    | '/professeur/'
-    | '/admin/niveau/$niveauId'
-    | '/login/admin/inscription'
-    | '/login/etudiant/inscription'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/cours-en-ligne'
-    | '/fonctionnalites'
     | '/login'
-    | '/politique-confidentialite'
-    | '/super-admin-acces'
+    | '/register'
+    | '/admin/announcements'
     | '/admin/events'
-    | '/admin/filieres'
+    | '/admin/grades'
+    | '/admin/students'
     | '/app/announcements'
-    | '/app/emploi'
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
-    | '/login/admin'
-    | '/login/etudiant'
     | '/platform/admins'
-    | '/platform/cours'
     | '/platform/etablissements'
-    | '/platform/parametres'
     | '/platform/partenariats'
-    | '/platform/professeurs'
-    | '/professeur/nouveau'
-    | '/professeur/revenus'
     | '/admin'
     | '/app'
     | '/platform'
-    | '/professeur'
-    | '/admin/niveau/$niveauId'
-    | '/login/admin/inscription'
-    | '/login/etudiant/inscription'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/app'
-    | '/cours-en-ligne'
-    | '/fonctionnalites'
     | '/login'
     | '/platform'
-    | '/politique-confidentialite'
-    | '/professeur'
-    | '/super-admin-acces'
+    | '/register'
+    | '/admin/announcements'
     | '/admin/events'
-    | '/admin/filieres'
+    | '/admin/grades'
+    | '/admin/students'
     | '/app/announcements'
-    | '/app/emploi'
     | '/app/events'
     | '/app/grades'
     | '/app/profile'
-    | '/login/admin'
-    | '/login/etudiant'
     | '/platform/admins'
-    | '/platform/cours'
     | '/platform/etablissements'
-    | '/platform/parametres'
     | '/platform/partenariats'
-    | '/platform/professeurs'
-    | '/professeur/nouveau'
-    | '/professeur/revenus'
     | '/admin/'
     | '/app/'
     | '/platform/'
-    | '/professeur/'
-    | '/admin/niveau/$niveauId'
-    | '/login/admin/inscription'
-    | '/login/etudiant/inscription'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
-  CoursEnLigneRoute: typeof CoursEnLigneRoute
-  FonctionnalitesRoute: typeof FonctionnalitesRoute
-  LoginRoute: typeof LoginRouteWithChildren
+  LoginRoute: typeof LoginRoute
   PlatformRoute: typeof PlatformRouteWithChildren
-  PolitiqueConfidentialiteRoute: typeof PolitiqueConfidentialiteRoute
-  ProfesseurRoute: typeof ProfesseurRouteWithChildren
-  SuperAdminAccesRoute: typeof SuperAdminAccesRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/super-admin-acces': {
-      id: '/super-admin-acces'
-      path: '/super-admin-acces'
-      fullPath: '/super-admin-acces'
-      preLoaderRoute: typeof SuperAdminAccesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/professeur': {
-      id: '/professeur'
-      path: '/professeur'
-      fullPath: '/professeur'
-      preLoaderRoute: typeof ProfesseurRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/politique-confidentialite': {
-      id: '/politique-confidentialite'
-      path: '/politique-confidentialite'
-      fullPath: '/politique-confidentialite'
-      preLoaderRoute: typeof PolitiqueConfidentialiteRouteImport
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/platform': {
@@ -477,20 +291,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/fonctionnalites': {
-      id: '/fonctionnalites'
-      path: '/fonctionnalites'
-      fullPath: '/fonctionnalites'
-      preLoaderRoute: typeof FonctionnalitesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cours-en-ligne': {
-      id: '/cours-en-ligne'
-      path: '/cours-en-ligne'
-      fullPath: '/cours-en-ligne'
-      preLoaderRoute: typeof CoursEnLigneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -514,13 +314,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/professeur/': {
-      id: '/professeur/'
-      path: '/'
-      fullPath: '/professeur/'
-      preLoaderRoute: typeof ProfesseurIndexRouteImport
-      parentRoute: typeof ProfesseurRoute
-    }
     '/platform/': {
       id: '/platform/'
       path: '/'
@@ -542,39 +335,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/professeur/revenus': {
-      id: '/professeur/revenus'
-      path: '/revenus'
-      fullPath: '/professeur/revenus'
-      preLoaderRoute: typeof ProfesseurRevenusRouteImport
-      parentRoute: typeof ProfesseurRoute
-    }
-    '/professeur/nouveau': {
-      id: '/professeur/nouveau'
-      path: '/nouveau'
-      fullPath: '/professeur/nouveau'
-      preLoaderRoute: typeof ProfesseurNouveauRouteImport
-      parentRoute: typeof ProfesseurRoute
-    }
-    '/platform/professeurs': {
-      id: '/platform/professeurs'
-      path: '/professeurs'
-      fullPath: '/platform/professeurs'
-      preLoaderRoute: typeof PlatformProfesseursRouteImport
-      parentRoute: typeof PlatformRoute
-    }
     '/platform/partenariats': {
       id: '/platform/partenariats'
       path: '/partenariats'
       fullPath: '/platform/partenariats'
       preLoaderRoute: typeof PlatformPartenariatsRouteImport
-      parentRoute: typeof PlatformRoute
-    }
-    '/platform/parametres': {
-      id: '/platform/parametres'
-      path: '/parametres'
-      fullPath: '/platform/parametres'
-      preLoaderRoute: typeof PlatformParametresRouteImport
       parentRoute: typeof PlatformRoute
     }
     '/platform/etablissements': {
@@ -584,33 +349,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformEtablissementsRouteImport
       parentRoute: typeof PlatformRoute
     }
-    '/platform/cours': {
-      id: '/platform/cours'
-      path: '/cours'
-      fullPath: '/platform/cours'
-      preLoaderRoute: typeof PlatformCoursRouteImport
-      parentRoute: typeof PlatformRoute
-    }
     '/platform/admins': {
       id: '/platform/admins'
       path: '/admins'
       fullPath: '/platform/admins'
       preLoaderRoute: typeof PlatformAdminsRouteImport
       parentRoute: typeof PlatformRoute
-    }
-    '/login/etudiant': {
-      id: '/login/etudiant'
-      path: '/etudiant'
-      fullPath: '/login/etudiant'
-      preLoaderRoute: typeof LoginEtudiantRouteImport
-      parentRoute: typeof LoginRoute
-    }
-    '/login/admin': {
-      id: '/login/admin'
-      path: '/admin'
-      fullPath: '/login/admin'
-      preLoaderRoute: typeof LoginAdminRouteImport
-      parentRoute: typeof LoginRoute
     }
     '/app/profile': {
       id: '/app/profile'
@@ -633,13 +377,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppEventsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/emploi': {
-      id: '/app/emploi'
-      path: '/emploi'
-      fullPath: '/app/emploi'
-      preLoaderRoute: typeof AppEmploiRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/announcements': {
       id: '/app/announcements'
       path: '/announcements'
@@ -647,11 +384,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/admin/filieres': {
-      id: '/admin/filieres'
-      path: '/filieres'
-      fullPath: '/admin/filieres'
-      preLoaderRoute: typeof AdminFilieresRouteImport
+    '/admin/students': {
+      id: '/admin/students'
+      path: '/students'
+      fullPath: '/admin/students'
+      preLoaderRoute: typeof AdminStudentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/grades': {
+      id: '/admin/grades'
+      path: '/grades'
+      fullPath: '/admin/grades'
+      preLoaderRoute: typeof AdminGradesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/events': {
@@ -661,49 +405,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEventsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/login/etudiant/inscription': {
-      id: '/login/etudiant/inscription'
-      path: '/inscription'
-      fullPath: '/login/etudiant/inscription'
-      preLoaderRoute: typeof LoginEtudiantInscriptionRouteImport
-      parentRoute: typeof LoginEtudiantRoute
-    }
-    '/login/admin/inscription': {
-      id: '/login/admin/inscription'
-      path: '/inscription'
-      fullPath: '/login/admin/inscription'
-      preLoaderRoute: typeof LoginAdminInscriptionRouteImport
-      parentRoute: typeof LoginAdminRoute
-    }
-    '/admin/niveau/$niveauId': {
-      id: '/admin/niveau/$niveauId'
-      path: '/niveau/$niveauId'
-      fullPath: '/admin/niveau/$niveauId'
-      preLoaderRoute: typeof AdminNiveauNiveauIdRouteImport
+    '/admin/announcements': {
+      id: '/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof AdminAnnouncementsRouteImport
       parentRoute: typeof AdminRoute
     }
   }
 }
 
 interface AdminRouteChildren {
+  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
   AdminEventsRoute: typeof AdminEventsRoute
-  AdminFilieresRoute: typeof AdminFilieresRoute
+  AdminGradesRoute: typeof AdminGradesRoute
+  AdminStudentsRoute: typeof AdminStudentsRoute
   AdminIndexRoute: typeof AdminIndexRoute
-  AdminNiveauNiveauIdRoute: typeof AdminNiveauNiveauIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
   AdminEventsRoute: AdminEventsRoute,
-  AdminFilieresRoute: AdminFilieresRoute,
+  AdminGradesRoute: AdminGradesRoute,
+  AdminStudentsRoute: AdminStudentsRoute,
   AdminIndexRoute: AdminIndexRoute,
-  AdminNiveauNiveauIdRoute: AdminNiveauNiveauIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AppRouteChildren {
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
-  AppEmploiRoute: typeof AppEmploiRoute
   AppEventsRoute: typeof AppEventsRoute
   AppGradesRoute: typeof AppGradesRoute
   AppProfileRoute: typeof AppProfileRoute
@@ -712,7 +443,6 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnnouncementsRoute: AppAnnouncementsRoute,
-  AppEmploiRoute: AppEmploiRoute,
   AppEventsRoute: AppEventsRoute,
   AppGradesRoute: AppGradesRoute,
   AppProfileRoute: AppProfileRoute,
@@ -721,59 +451,17 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
-interface LoginAdminRouteChildren {
-  LoginAdminInscriptionRoute: typeof LoginAdminInscriptionRoute
-}
-
-const LoginAdminRouteChildren: LoginAdminRouteChildren = {
-  LoginAdminInscriptionRoute: LoginAdminInscriptionRoute,
-}
-
-const LoginAdminRouteWithChildren = LoginAdminRoute._addFileChildren(
-  LoginAdminRouteChildren,
-)
-
-interface LoginEtudiantRouteChildren {
-  LoginEtudiantInscriptionRoute: typeof LoginEtudiantInscriptionRoute
-}
-
-const LoginEtudiantRouteChildren: LoginEtudiantRouteChildren = {
-  LoginEtudiantInscriptionRoute: LoginEtudiantInscriptionRoute,
-}
-
-const LoginEtudiantRouteWithChildren = LoginEtudiantRoute._addFileChildren(
-  LoginEtudiantRouteChildren,
-)
-
-interface LoginRouteChildren {
-  LoginAdminRoute: typeof LoginAdminRouteWithChildren
-  LoginEtudiantRoute: typeof LoginEtudiantRouteWithChildren
-}
-
-const LoginRouteChildren: LoginRouteChildren = {
-  LoginAdminRoute: LoginAdminRouteWithChildren,
-  LoginEtudiantRoute: LoginEtudiantRouteWithChildren,
-}
-
-const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren)
-
 interface PlatformRouteChildren {
   PlatformAdminsRoute: typeof PlatformAdminsRoute
-  PlatformCoursRoute: typeof PlatformCoursRoute
   PlatformEtablissementsRoute: typeof PlatformEtablissementsRoute
-  PlatformParametresRoute: typeof PlatformParametresRoute
   PlatformPartenariatsRoute: typeof PlatformPartenariatsRoute
-  PlatformProfesseursRoute: typeof PlatformProfesseursRoute
   PlatformIndexRoute: typeof PlatformIndexRoute
 }
 
 const PlatformRouteChildren: PlatformRouteChildren = {
   PlatformAdminsRoute: PlatformAdminsRoute,
-  PlatformCoursRoute: PlatformCoursRoute,
   PlatformEtablissementsRoute: PlatformEtablissementsRoute,
-  PlatformParametresRoute: PlatformParametresRoute,
   PlatformPartenariatsRoute: PlatformPartenariatsRoute,
-  PlatformProfesseursRoute: PlatformProfesseursRoute,
   PlatformIndexRoute: PlatformIndexRoute,
 }
 
@@ -781,44 +469,14 @@ const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
   PlatformRouteChildren,
 )
 
-interface ProfesseurRouteChildren {
-  ProfesseurNouveauRoute: typeof ProfesseurNouveauRoute
-  ProfesseurRevenusRoute: typeof ProfesseurRevenusRoute
-  ProfesseurIndexRoute: typeof ProfesseurIndexRoute
-}
-
-const ProfesseurRouteChildren: ProfesseurRouteChildren = {
-  ProfesseurNouveauRoute: ProfesseurNouveauRoute,
-  ProfesseurRevenusRoute: ProfesseurRevenusRoute,
-  ProfesseurIndexRoute: ProfesseurIndexRoute,
-}
-
-const ProfesseurRouteWithChildren = ProfesseurRoute._addFileChildren(
-  ProfesseurRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
-  CoursEnLigneRoute: CoursEnLigneRoute,
-  FonctionnalitesRoute: FonctionnalitesRoute,
-  LoginRoute: LoginRouteWithChildren,
+  LoginRoute: LoginRoute,
   PlatformRoute: PlatformRouteWithChildren,
-  PolitiqueConfidentialiteRoute: PolitiqueConfidentialiteRoute,
-  ProfesseurRoute: ProfesseurRouteWithChildren,
-  SuperAdminAccesRoute: SuperAdminAccesRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

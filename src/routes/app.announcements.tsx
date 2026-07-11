@@ -9,7 +9,7 @@ export const Route = createFileRoute("/app/announcements")({
   head: () => ({ meta: [{ title: "Annonces — CampusLink" }] }),
 });
 
-type A = { id: string; titre: string; contenu: string; tag: string | null; urgent: boolean | null; auteur: string | null; created_at: string };
+type A = { id:string; titre:string; contenu:string; tag:string|null; urgent:boolean|null; auteur:string|null; created_at:string };
 
 function Page() {
   const auth = useAuth();
@@ -18,14 +18,9 @@ function Page() {
   useEffect(() => {
     if (!auth.user) return;
     (async () => {
-      const { data: e } = await supabase.from("etudiants").select("etablissement_id,filiere_id,niveau_id").eq("user_id", auth.user!.id).maybeSingle();
+      const { data: e } = await supabase.from("etudiants").select("etablissement_id").eq("user_id", auth.user!.id).maybeSingle();
       if (!e?.etablissement_id) return;
-      // Annonces du niveau (filiere+niveau) + annonces établissement-wide (filiere_id IS NULL AND niveau_id IS NULL)
-      const { data } = await supabase.from("annonces")
-        .select("*")
-        .eq("etablissement_id", e.etablissement_id)
-        .or(`and(filiere_id.eq.${e.filiere_id},niveau_id.eq.${e.niveau_id}),and(filiere_id.is.null,niveau_id.is.null)`)
-        .order("created_at", { ascending: false });
+      const { data } = await supabase.from("annonces").select("*").eq("etablissement_id", e.etablissement_id).order("created_at",{ascending:false});
       setRows(data ?? []);
     })();
   }, [auth.user]);
@@ -37,9 +32,9 @@ function Page() {
         <h1 className="font-display text-2xl font-bold">Annonces</h1>
       </header>
       <section className="mt-4 space-y-3 px-5">
-        {rows.length === 0 ? (
+        {rows.length===0 ? (
           <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">Aucune annonce disponible.</p>
-        ) : rows.map((a) => (
+        ) : rows.map(a => (
           <article key={a.id} className="relative overflow-hidden rounded-2xl bg-surface p-4 shadow-card">
             {a.urgent && <span className="absolute left-0 top-0 h-full w-1 bg-terracotta" />}
             <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Logo, KenteBar, BurkinaFlag } from "@/components/campus/ui";
+import { Logo, KenteBar } from "@/components/campus/ui";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
@@ -14,76 +14,19 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const navLinks = [
-    { label: "Fonctionnalités", to: "/fonctionnalites" },
-    { label: "Cours en ligne", to: "/cours-en-ligne" },
-    { label: "Politique de confidentialité", to: "/politique-confidentialite" },
-  ];
-
   return (
     <div className="min-h-screen bg-background">
       <KenteBar />
-
-      {/* Fixed navigation bar */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-          <div className="flex items-center gap-2">
-            <Logo />
-            <BurkinaFlag />
-          </div>
-
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground lg:flex">
-            {navLinks.map((l) => (
-              <Link key={l.to} to={l.to} className="hover:text-foreground transition-colors">{l.label}</Link>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-2 lg:flex">
-            <Link to="/login/admin" className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground transition hover:bg-muted">Accéder au compte professionnel</Link>
-            <Link to="/login/etudiant" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-elegant transition hover:opacity-95">Se connecter au compte étudiant</Link>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-            className="grid h-10 w-10 place-items-center rounded-lg border border-border bg-surface lg:hidden"
-          >
-            {menuOpen ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M6 18L18 6"/></svg>
-            ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-            )}
-          </button>
+      <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+        <Logo />
+        <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
+          <a href="#features" className="hover:text-foreground">Fonctionnalités</a>
+          <a href="#partenariat" className="hover:text-foreground">Devenir partenaire</a>
+        </nav>
+        <div className="flex items-center gap-2">
+          <Link to="/register" className="hidden rounded-full px-4 py-2 text-sm font-medium text-foreground hover:bg-muted md:inline-flex">Créer un compte étudiant</Link>
+          <Link to="/login" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-elegant transition hover:opacity-95">Se connecter</Link>
         </div>
-
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div className="border-t border-border bg-surface lg:hidden">
-            <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-3">
-              {navLinks.map((l) => (
-                <Link key={l.to} to={l.to} onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                  {l.label}
-                </Link>
-              ))}
-              <div className="mt-2 rounded-xl border border-border bg-muted/40 p-3">
-                <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-terracotta">Cours en ligne</p>
-                <Link to="/login/etudiant" onClick={() => setMenuOpen(false)} className="mb-2 block rounded-lg bg-primary px-3 py-2.5 text-center text-sm font-semibold text-primary-foreground">
-                  🎓 Étudiants — Accéder aux cours
-                </Link>
-                <Link to="/professeur" onClick={() => setMenuOpen(false)} className="block rounded-lg bg-terracotta px-3 py-2.5 text-center text-sm font-semibold text-white">
-                  👨‍🏫 Professeurs — Mon espace cours
-                </Link>
-                <p className="mt-2 text-[10px] text-muted-foreground">L'accès professeur nécessite une validation du super administrateur.</p>
-              </div>
-              <Link to="/login/admin" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full border border-border bg-surface px-5 py-2.5 text-center text-sm font-medium text-foreground">Accéder au compte professionnel</Link>
-              <Link to="/login/etudiant" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-primary px-5 py-2.5 text-center text-sm font-medium text-primary-foreground">Se connecter au compte étudiant</Link>
-            </nav>
-          </div>
-        )}
       </header>
 
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-10 md:grid-cols-2 md:py-20">
@@ -96,15 +39,12 @@ function Landing() {
             Toute la vie universitaire <span className="text-primary">dans une seule app.</span>
           </h1>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
-            CampusLink connecte les universités burkinabè et leurs étudiants. Notes, annonces, événements, scolarité — un espace numérique complet pour chaque établissement partenaire.
+            CampusLink connecte les universités africaines et leurs étudiants. Notes, annonces, événements, scolarité — un espace numérique complet pour chaque établissement partenaire.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/login/etudiant" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant">
-              Se connecter au compte étudiant
+            <Link to="/register" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant">
+              Je suis étudiant · créer mon compte
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </Link>
-            <Link to="/login/admin" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:bg-muted">
-              Accéder au compte professionnel
             </Link>
             <a href="#partenariat" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:bg-muted">
               Devenir université partenaire
@@ -136,12 +76,33 @@ function Landing() {
         </div>
       </section>
 
+      <section id="features" className="mx-auto max-w-7xl px-6 py-16">
+        <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Fonctionnalités</p>
+        <h2 className="mt-2 max-w-2xl font-display text-3xl font-bold md:text-4xl">Une plateforme pensée pour les universités africaines.</h2>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {[
+            { t: "Multi-établissements", d: "Chaque université dispose de son propre espace, ses filières et ses utilisateurs — isolés et sécurisés.", i: "🏛️" },
+            { t: "App étudiant mobile", d: "Notes, annonces, événements, profil. Une expérience fluide sur Android et iOS.", i: "📱" },
+            { t: "Back-office web", d: "Gestion des étudiants, import CSV/Excel, publication centralisée pour l'administration.", i: "🖥️" },
+            { t: "Vérification d'identité", d: "L'étudiant s'inscrit seul, comparé à la liste officielle importée par l'administration.", i: "🔐" },
+            { t: "Notes contrôlées", d: "Publication décidée par l'admin, visibilité stricte pour chaque étudiant.", i: "📊" },
+            { t: "Évolutif", d: "Enseignants, emplois du temps, notifications, paiement, bibliothèque — l'architecture est prête.", i: "🚀" },
+          ].map((f) => (
+            <div key={f.t} className="group rounded-3xl border border-border bg-surface p-6 transition hover:-translate-y-1 hover:shadow-card">
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary-soft text-2xl">{f.i}</div>
+              <h3 className="mt-4 font-display text-lg font-semibold">{f.t}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <PartnershipSection />
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
           <Logo />
-          <p>© 2026 CampusLink — La plateforme universitaire du Burkina Faso.</p>
+          <p>© 2026 CampusLink — Une plateforme panafricaine.</p>
         </div>
       </footer>
     </div>
@@ -199,4 +160,3 @@ function PartnershipSection() {
     </section>
   );
 }
-

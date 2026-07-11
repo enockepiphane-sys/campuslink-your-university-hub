@@ -16,8 +16,8 @@ function PlatformLayout() {
 
   useEffect(() => {
     if (auth.loading) return;
-    if (!auth.user) navigate({ to: "/super-admin-acces" });
-    else if (auth.role !== "super_admin") navigate({ to: auth.role === "admin_etablissement" ? "/admin" : auth.role === "professeur" ? "/professeur" : "/app" });
+    if (!auth.user) navigate({ to: "/login" });
+    else if (auth.role !== "super_admin") navigate({ to: auth.role === "admin_etablissement" ? "/admin" : "/app" });
   }, [auth, navigate]);
 
   if (auth.loading || !auth.user) return <div className="min-h-screen grid place-items-center text-sm text-muted-foreground">Chargement…</div>;
@@ -27,9 +27,6 @@ function PlatformLayout() {
     { l: "Établissements", to: "/platform/etablissements", i: "🏛️" },
     { l: "Administrateurs", to: "/platform/admins", i: "👤" },
     { l: "Demandes partenariat", to: "/platform/partenariats", i: "✉️" },
-    { l: "Professeurs", to: "/platform/professeurs", i: "👨‍🏫" },
-    { l: "Cours en ligne", to: "/platform/cours", i: "🎥" },
-    { l: "Paramètres", to: "/platform/parametres", i: "⚙️" },
   ];
 
   const initials = (auth.user.user_metadata?.nom_complet || auth.user.email || "?").split(" ").map((s: string)=>s[0]).slice(0,2).join("").toUpperCase();
@@ -68,11 +65,11 @@ function PlatformLayout() {
 
       {/* Header mobile avec hamburger */}
       <header className="flex items-center justify-between border-b border-border bg-surface px-4 py-3 md:hidden">
-        <button onClick={()=>setOpen(true)} aria-label="Ouvrir le menu" className="grid h-10 w-10 place-items-center rounded-lg border border-border bg-background">
+        <button onClick={()=>setOpen(true)} aria-label="Ouvrir le menu" className="grid h-10 w-10 place-items-center rounded-lg border border-border">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
         <Logo />
-        <Avatar initials={initials} className="h-9 w-9 bg-gold text-gold-foreground" />
+        <div className="w-10" />
       </header>
 
       <div className="md:grid md:min-h-[calc(100vh-6px)] md:grid-cols-[260px_1fr]">
@@ -81,12 +78,12 @@ function PlatformLayout() {
           {SidebarContent}
         </aside>
 
-        {/* Drawer mobile - overlay, never hides content */}
+        {/* Drawer mobile */}
         {open && (
-          <div className="fixed inset-0 z-[100] md:hidden">
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={()=>setOpen(false)} />
-            <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-surface shadow-2xl animate-in slide-in-from-left duration-200">
-              <div className="flex items-center justify-end p-2">
+          <div className="fixed inset-0 z-50 md:hidden">
+            <div className="absolute inset-0 bg-black/50" onClick={()=>setOpen(false)} />
+            <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-surface shadow-xl">
+              <div className="flex items-center justify-end px-2 pt-2">
                 <button onClick={()=>setOpen(false)} aria-label="Fermer" className="grid h-9 w-9 place-items-center rounded-lg hover:bg-muted">✕</button>
               </div>
               {SidebarContent}
@@ -94,9 +91,7 @@ function PlatformLayout() {
           </div>
         )}
 
-        <main className="flex flex-col min-h-0">
-          <div className="flex-1 overflow-y-auto p-4 md:p-8"><Outlet /></div>
-        </main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-8"><Outlet /></main>
       </div>
     </div>
   );

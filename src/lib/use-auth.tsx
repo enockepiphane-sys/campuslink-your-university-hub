@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Session, User } from "@supabase/supabase-js";
 
-export type Role = "super_admin" | "admin_etablissement" | "etudiant" | "professeur";
+export type Role = "super_admin" | "admin_etablissement" | "etudiant";
 
 export type AuthState = {
   loading: boolean;
@@ -62,6 +62,5 @@ export function roleHomePath(role: Role | null): string {
   if (role === "super_admin") return "/platform";
   if (role === "admin_etablissement") return "/admin";
   if (role === "etudiant") return "/app";
-  if (role === "professeur") return "/professeur";
   return "/login";
 }
