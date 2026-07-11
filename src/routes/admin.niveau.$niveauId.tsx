@@ -83,7 +83,7 @@ function NiveauDetailPage() {
 }
 
 // ============ STUDENTS TAB ============
-function StudentsTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string }) {
+function StudentsTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string | null }) {
   const [rows, setRows] = useState<Etudiant[]>([]);
   const [importText, setImportText] = useState("");
   const [report, setReport] = useState("");
@@ -182,7 +182,7 @@ function StudentsTab({ niveauId, eid, filiereId }: { niveauId: string; eid: stri
 }
 
 // ============ ANNONCES TAB ============
-function AnnoncesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string }) {
+function AnnoncesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string | null }) {
   const [rows, setRows] = useState<Annonce[]>([]);
   const [form, setForm] = useState({ titre: "", contenu: "", tag: "", urgent: false });
 
@@ -252,7 +252,7 @@ function AnnoncesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: stri
 }
 
 // ============ EMPLOI DU TEMPS TAB ============
-function EmploiTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string }) {
+function EmploiTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string | null }) {
   const [rows, setRows] = useState<Emploi[]>([]);
   const [form, setForm] = useState({ matiere: "", jour: "Lundi", heure_debut: "", heure_fin: "", salle: "", enseignant: "" });
   const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
@@ -334,7 +334,7 @@ function EmploiTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string
 }
 
 // ============ NOTES TAB ============
-function NotesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string }) {
+function NotesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string | null; filiereId: string | null }) {
   const [etudiants, setEtudiants] = useState<Etudiant[]>([]);
   const [matieres, setMatieres] = useState<Matiere[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
