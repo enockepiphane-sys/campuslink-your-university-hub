@@ -41,6 +41,7 @@ import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements
 import { Route as AdminFilieresRouteImport } from './routes/admin.filieres'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as LoginEtudiantInscriptionRouteImport } from './routes/login.etudiant.inscription'
+import { Route as LoginAdminInscriptionRouteImport } from './routes/login.admin.inscription'
 import { Route as AdminNiveauNiveauIdRouteImport } from './routes/admin.niveau.$niveauId'
 
 const SuperAdminAccesRoute = SuperAdminAccesRouteImport.update({
@@ -205,6 +206,11 @@ const LoginEtudiantInscriptionRoute =
     path: '/inscription',
     getParentRoute: () => LoginEtudiantRoute,
   } as any)
+const LoginAdminInscriptionRoute = LoginAdminInscriptionRouteImport.update({
+  id: '/inscription',
+  path: '/inscription',
+  getParentRoute: () => LoginAdminRoute,
+} as any)
 const AdminNiveauNiveauIdRoute = AdminNiveauNiveauIdRouteImport.update({
   id: '/niveau/$niveauId',
   path: '/niveau/$niveauId',
@@ -229,7 +235,7 @@ export interface FileRoutesByFullPath {
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
-  '/login/admin': typeof LoginAdminRoute
+  '/login/admin': typeof LoginAdminRouteWithChildren
   '/login/etudiant': typeof LoginEtudiantRouteWithChildren
   '/platform/admins': typeof PlatformAdminsRoute
   '/platform/cours': typeof PlatformCoursRoute
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/platform/': typeof PlatformIndexRoute
   '/professeur/': typeof ProfesseurIndexRoute
   '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
+  '/login/admin/inscription': typeof LoginAdminInscriptionRoute
   '/login/etudiant/inscription': typeof LoginEtudiantInscriptionRoute
 }
 export interface FileRoutesByTo {
@@ -260,7 +267,7 @@ export interface FileRoutesByTo {
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
-  '/login/admin': typeof LoginAdminRoute
+  '/login/admin': typeof LoginAdminRouteWithChildren
   '/login/etudiant': typeof LoginEtudiantRouteWithChildren
   '/platform/admins': typeof PlatformAdminsRoute
   '/platform/cours': typeof PlatformCoursRoute
@@ -275,6 +282,7 @@ export interface FileRoutesByTo {
   '/platform': typeof PlatformIndexRoute
   '/professeur': typeof ProfesseurIndexRoute
   '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
+  '/login/admin/inscription': typeof LoginAdminInscriptionRoute
   '/login/etudiant/inscription': typeof LoginEtudiantInscriptionRoute
 }
 export interface FileRoutesById {
@@ -296,7 +304,7 @@ export interface FileRoutesById {
   '/app/events': typeof AppEventsRoute
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
-  '/login/admin': typeof LoginAdminRoute
+  '/login/admin': typeof LoginAdminRouteWithChildren
   '/login/etudiant': typeof LoginEtudiantRouteWithChildren
   '/platform/admins': typeof PlatformAdminsRoute
   '/platform/cours': typeof PlatformCoursRoute
@@ -311,6 +319,7 @@ export interface FileRoutesById {
   '/platform/': typeof PlatformIndexRoute
   '/professeur/': typeof ProfesseurIndexRoute
   '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
+  '/login/admin/inscription': typeof LoginAdminInscriptionRoute
   '/login/etudiant/inscription': typeof LoginEtudiantInscriptionRoute
 }
 export interface FileRouteTypes {
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/platform/'
     | '/professeur/'
     | '/admin/niveau/$niveauId'
+    | '/login/admin/inscription'
     | '/login/etudiant/inscription'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -379,6 +389,7 @@ export interface FileRouteTypes {
     | '/platform'
     | '/professeur'
     | '/admin/niveau/$niveauId'
+    | '/login/admin/inscription'
     | '/login/etudiant/inscription'
   id:
     | '__root__'
@@ -414,6 +425,7 @@ export interface FileRouteTypes {
     | '/platform/'
     | '/professeur/'
     | '/admin/niveau/$niveauId'
+    | '/login/admin/inscription'
     | '/login/etudiant/inscription'
   fileRoutesById: FileRoutesById
 }
@@ -656,6 +668,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginEtudiantInscriptionRouteImport
       parentRoute: typeof LoginEtudiantRoute
     }
+    '/login/admin/inscription': {
+      id: '/login/admin/inscription'
+      path: '/inscription'
+      fullPath: '/login/admin/inscription'
+      preLoaderRoute: typeof LoginAdminInscriptionRouteImport
+      parentRoute: typeof LoginAdminRoute
+    }
     '/admin/niveau/$niveauId': {
       id: '/admin/niveau/$niveauId'
       path: '/niveau/$niveauId'
@@ -702,6 +721,18 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface LoginAdminRouteChildren {
+  LoginAdminInscriptionRoute: typeof LoginAdminInscriptionRoute
+}
+
+const LoginAdminRouteChildren: LoginAdminRouteChildren = {
+  LoginAdminInscriptionRoute: LoginAdminInscriptionRoute,
+}
+
+const LoginAdminRouteWithChildren = LoginAdminRoute._addFileChildren(
+  LoginAdminRouteChildren,
+)
+
 interface LoginEtudiantRouteChildren {
   LoginEtudiantInscriptionRoute: typeof LoginEtudiantInscriptionRoute
 }
@@ -715,12 +746,12 @@ const LoginEtudiantRouteWithChildren = LoginEtudiantRoute._addFileChildren(
 )
 
 interface LoginRouteChildren {
-  LoginAdminRoute: typeof LoginAdminRoute
+  LoginAdminRoute: typeof LoginAdminRouteWithChildren
   LoginEtudiantRoute: typeof LoginEtudiantRouteWithChildren
 }
 
 const LoginRouteChildren: LoginRouteChildren = {
-  LoginAdminRoute: LoginAdminRoute,
+  LoginAdminRoute: LoginAdminRouteWithChildren,
   LoginEtudiantRoute: LoginEtudiantRouteWithChildren,
 }
 
