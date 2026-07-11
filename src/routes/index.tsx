@@ -42,7 +42,8 @@ function Landing() {
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <Link to="/login" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-elegant transition hover:opacity-95">Se connecter</Link>
+            <Link to="/login/admin" className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground transition hover:bg-muted">Accéder au compte professionnel</Link>
+            <Link to="/login/etudiant" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-elegant transition hover:opacity-95">Se connecter au compte étudiant</Link>
           </div>
 
           {/* Mobile hamburger */}
@@ -68,6 +69,8 @@ function Landing() {
                   {l.label}
                 </Link>
               ))}
+              <Link to="/login/admin" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full border border-border bg-surface px-5 py-2.5 text-center text-sm font-medium text-foreground">Accéder au compte professionnel</Link>
+              <Link to="/login/etudiant" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-primary px-5 py-2.5 text-center text-sm font-medium text-primary-foreground">Se connecter au compte étudiant</Link>
             </nav>
           </div>
         )}
@@ -86,9 +89,12 @@ function Landing() {
             CampusLink connecte les universités burkinabè et leurs étudiants. Notes, annonces, événements, scolarité — un espace numérique complet pour chaque établissement partenaire.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/login" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant">
-              Accéder à mon espace
+            <Link to="/login/etudiant" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant">
+              Se connecter au compte étudiant
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </Link>
+            <Link to="/login/admin" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:bg-muted">
+              Accéder au compte professionnel
             </Link>
             <a href="#partenariat" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:bg-muted">
               Devenir université partenaire

@@ -37,7 +37,7 @@ function CoursEnLignePage() {
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gold/20 text-2xl">🎓</div>
             <h3 className="mt-4 font-display text-lg font-semibold">Étudiants — Accéder aux cours</h3>
             <p className="mt-2 text-sm text-muted-foreground">Consultez le catalogue des cours disponibles, filtrable par matière et niveau. Achat sécurisé via Mobile Money ou carte bancaire.</p>
-            <Link to="/login" className="mt-4 inline-flex rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">
+            <Link to="/login/etudiant" className="mt-4 inline-flex rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">
               Accéder aux cours →
             </Link>
           </div>
@@ -45,7 +45,7 @@ function CoursEnLignePage() {
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-terracotta/20 text-2xl">👨‍🏫</div>
             <h3 className="mt-4 font-display text-lg font-semibold">Professeurs — Mon espace cours</h3>
             <p className="mt-2 text-sm text-muted-foreground">Accédez à votre espace pour gérer vos cours en ligne et consulter vos revenus. Uniquement pour les professeurs validés par l'administration.</p>
-            <Link to="/login" className="mt-4 inline-flex rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-white">
+            <Link to="/login/etudiant" className="mt-4 inline-flex rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-white">
               Accéder à mon espace →
             </Link>
           </div>

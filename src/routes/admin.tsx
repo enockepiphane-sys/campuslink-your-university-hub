@@ -18,9 +18,9 @@ function AdminLayout() {
 
   useEffect(() => {
     if (auth.loading) return;
-    if (!auth.user) navigate({ to: "/login" });
-    else if (auth.role !== "admin_etablissement" && auth.role !== "super_admin") {
-      navigate({ to: auth.role === "etudiant" ? "/app" : auth.role === "professeur" ? "/professeur" : "/login" });
+    if (!auth.user) navigate({ to: "/login/admin" });
+    else if (auth.role !== "admin_etablissement") {
+      navigate({ to: auth.role === "super_admin" ? "/platform" : auth.role === "etudiant" ? "/app" : auth.role === "professeur" ? "/professeur" : "/login" });
     }
   }, [auth, navigate]);
 

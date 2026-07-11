@@ -16,7 +16,7 @@ function PlatformLayout() {
 
   useEffect(() => {
     if (auth.loading) return;
-    if (!auth.user) navigate({ to: "/login" });
+    if (!auth.user) navigate({ to: "/super-admin-acces" });
     else if (auth.role !== "super_admin") navigate({ to: auth.role === "admin_etablissement" ? "/admin" : auth.role === "professeur" ? "/professeur" : "/app" });
   }, [auth, navigate]);
 

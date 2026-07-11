@@ -17,8 +17,8 @@ function ProfesseurLayout() {
   useEffect(() => {
     if (auth.loading) return;
     if (!auth.user) navigate({ to: "/login" });
-    else if (auth.role !== "professeur" && auth.role !== "super_admin") {
-      navigate({ to: auth.role === "admin_etablissement" ? "/admin" : auth.role === "etudiant" ? "/app" : "/login" });
+    else if (auth.role !== "professeur") {
+      navigate({ to: auth.role === "super_admin" ? "/platform" : auth.role === "admin_etablissement" ? "/admin" : auth.role === "etudiant" ? "/app" : "/login" });
     }
   }, [auth, navigate]);
 
