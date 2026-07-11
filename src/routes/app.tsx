@@ -16,7 +16,7 @@ function AppLayout() {
     if (auth.loading) return;
     if (!auth.user) navigate({ to: "/login" });
     else if (auth.role !== "etudiant" && auth.role !== "super_admin") {
-      navigate({ to: auth.role === "admin_etablissement" ? "/admin" : "/login" });
+      navigate({ to: auth.role === "admin_etablissement" ? "/admin" : auth.role === "professeur" ? "/professeur" : "/login" });
     }
   }, [auth, navigate]);
 

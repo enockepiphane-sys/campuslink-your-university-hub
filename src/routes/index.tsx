@@ -14,21 +14,67 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const navLinks = [
+    { label: "Fonctionnalités", href: "#features" },
+    { label: "Cours en ligne", href: "#cours-en-ligne" },
+    { label: "Devenir partenaire", href: "#partenariat" },
+    { label: "Politique de confidentialité", href: "#confidentialite" },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <KenteBar />
-      <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-2">
-          <Logo />
-          <BurkinaFlag />
+
+      {/* Fixed navigation bar */}
+      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+          <div className="flex items-center gap-2">
+            <Logo />
+            <BurkinaFlag />
+          </div>
+
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground lg:flex">
+            {navLinks.map((l) => (
+              <a key={l.href} href={l.href} className="hover:text-foreground transition-colors">{l.label}</a>
+            ))}
+          </nav>
+
+          <div className="hidden items-center gap-2 lg:flex">
+            <Link to="/login" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-elegant transition hover:opacity-95">Se connecter</Link>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+            className="grid h-10 w-10 place-items-center rounded-lg border border-border bg-surface lg:hidden"
+          >
+            {menuOpen ? (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M6 18L18 6"/></svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            )}
+          </button>
         </div>
-        <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-          <a href="#features" className="hover:text-foreground">Fonctionnalités</a>
-          <a href="#partenariat" className="hover:text-foreground">Devenir partenaire</a>
-        </nav>
-        <div className="flex items-center gap-2">
-          <Link to="/login" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-elegant transition hover:opacity-95">Se connecter</Link>
-        </div>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="border-t border-border bg-surface lg:hidden">
+            <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-3">
+              {navLinks.map((l) => (
+                <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                  {l.label}
+                </a>
+              ))}
+              <Link to="/login" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-primary px-5 py-2.5 text-center text-sm font-medium text-primary-foreground shadow-elegant">
+                Se connecter
+              </Link>
+            </nav>
+          </div>
+        )}
       </header>
 
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-10 md:grid-cols-2 md:py-20">
@@ -99,7 +145,36 @@ function Landing() {
         </div>
       </section>
 
+      {/* Online courses section */}
+      <section id="cours-en-ligne" className="mx-auto max-w-7xl px-6 py-16">
+        <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Cours en ligne</p>
+        <h2 className="mt-2 max-w-2xl font-display text-3xl font-bold md:text-4xl">Apprenez avec les meilleurs professeurs.</h2>
+        <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
+          Accédez à des cours en vidéo proposés par des professeurs qualifiés. Paiement via Orange Money, Moov Money ou carte bancaire.
+        </p>
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl border border-border bg-surface p-6">
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gold/20 text-2xl">🎓</div>
+            <h3 className="mt-4 font-display text-lg font-semibold">Pour les étudiants</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Catalogue de cours filtrable par matière et niveau. Achat sécurisé via Mobile Money ou carte bancaire.</p>
+            <Link to="/login" className="mt-4 inline-flex rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">
+              Explorer les cours →
+            </Link>
+          </div>
+          <div className="rounded-3xl border border-border bg-surface p-6">
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-terracotta/20 text-2xl">👨‍🏫</div>
+            <h3 className="mt-4 font-display text-lg font-semibold">Vous êtes professeur ?</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Proposez vos cours en ligne, touchez des revenus sur chaque vente. Notre équipe valide votre profil.</p>
+            <a href="#candidature-professeur" className="mt-4 inline-flex rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-white">
+              Proposer vos cours →
+            </a>
+          </div>
+        </div>
+      </section>
+
       <PartnershipSection />
+      <ProfessorSection />
+      <PrivacySection />
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
@@ -158,6 +233,76 @@ function PartnershipSection() {
           {state==="sent" && <p className="text-xs text-emerald-200">✓ Demande envoyée. Nous vous recontactons rapidement.</p>}
           {state==="error" && <p className="text-xs text-red-200">Erreur : {err}</p>}
         </form>
+      </div>
+    </section>
+  );
+}
+
+function ProfessorSection() {
+  const [state, setState] = useState<"idle"|"sending"|"sent"|"error">("idle");
+  const [err, setErr] = useState("");
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setState("sending"); setErr("");
+    const f = new FormData(e.currentTarget);
+    const payload = {
+      nom_complet: String(f.get("nom_complet") || ""),
+      email: String(f.get("email") || ""),
+      matiere: String(f.get("matiere") || ""),
+      etablissement_origine: String(f.get("etablissement_origine") || ""),
+      experience: String(f.get("experience") || ""),
+    };
+    const { error } = await supabase.from("demandes_professeur").insert(payload);
+    if (error) { setState("error"); setErr(error.message); return; }
+    setState("sent");
+    (e.target as HTMLFormElement).reset();
+  }
+
+  return (
+    <section id="candidature-professeur" className="mx-auto max-w-7xl px-6 pb-20">
+      <div className="grid gap-8 rounded-3xl border border-border bg-surface p-8 md:grid-cols-[1.1fr_1fr] md:p-12">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Espace professeur</p>
+          <h3 className="mt-2 font-display text-3xl font-bold md:text-4xl">Proposez vos cours en ligne.</h3>
+          <p className="mt-4 max-w-md text-sm text-muted-foreground">Vous enseignez à l'université ou dans une école supérieure ? Devenez professeur CampusLink et proposez vos cours en vidéo aux étudiants de tout le pays.</p>
+          <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
+            <li>✓ Uploadez vos cours en vidéo</li>
+            <li>✓ Fixez vos prix par cours</li>
+            <li>✓ Touchez des revenus sur chaque vente</li>
+            <li>✓ Suivez vos statistiques de vente</li>
+          </ul>
+        </div>
+        <form onSubmit={submit} className="space-y-3 rounded-2xl bg-muted/40 p-6">
+          <input name="nom_complet" required placeholder="Nom complet" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
+          <input name="email" type="email" required placeholder="Email" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
+          <input name="matiere" required placeholder="Matière enseignée" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
+          <input name="etablissement_origine" placeholder="Établissement d'origine" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
+          <textarea name="experience" rows={3} placeholder="Décrivez votre expérience d'enseignement" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
+          <button disabled={state==="sending"} className="w-full rounded-xl bg-terracotta py-3 text-sm font-semibold text-white disabled:opacity-60">
+            {state==="sending" ? "Envoi…" : "Envoyer ma candidature"}
+          </button>
+          {state==="sent" && <p className="text-xs text-emerald-600">✓ Candidature envoyée. Notre équipe vous recontactera pour valider votre profil.</p>}
+          {state==="error" && <p className="text-xs text-red-600">Erreur : {err}</p>}
+        </form>
+      </div>
+    </section>
+  );
+}
+
+function PrivacySection() {
+  return (
+    <section id="confidentialite" className="mx-auto max-w-7xl px-6 pb-20">
+      <div className="rounded-3xl border border-border bg-surface p-8 md:p-12">
+        <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Confidentialité</p>
+        <h3 className="mt-2 font-display text-3xl font-bold">Politique de confidentialité</h3>
+        <div className="mt-6 space-y-4 text-sm text-muted-foreground">
+          <p><strong className="text-foreground">Collecte des données.</strong> CampusLink collecte les informations nécessaires au fonctionnement du service : nom, email, date de naissance, établissement, filière et niveau. Ces données sont fournies par votre établissement ou par vous-même lors de l'inscription.</p>
+          <p><strong className="text-foreground">Utilisation.</strong> Vos données sont utilisées uniquement pour vous identifier, afficher vos informations académiques (notes, annonces, événements) et vous permettre d'accéder aux services CampusLink.</p>
+          <p><strong className="text-foreground">Sécurité.</strong> Chaque établissement dispose d'un espace isolé. Les données d'un établissement ne sont jamais visibles par un autre. L'accès est contrôlé par des politiques de sécurité au niveau de la base de données (RLS).</p>
+          <p><strong className="text-foreground">Paiements.</strong> Les paiements pour les cours en ligne sont traités par des tiers (Orange Money, Moov Money, stripe). CampusLink ne stocke pas vos informations de carte bancaire.</p>
+          <p><strong className="text-foreground">Vos droits.</strong> Vous pouvez demander l'accès, la modification ou la suppression de vos données à tout moment en contactant votre établissement ou l'équipe CampusLink.</p>
+        </div>
       </div>
     </section>
   );

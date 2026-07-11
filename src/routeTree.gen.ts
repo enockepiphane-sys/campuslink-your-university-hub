@@ -9,16 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfesseurRouteImport } from './routes/professeur'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfesseurIndexRouteImport } from './routes/professeur.index'
 import { Route as PlatformIndexRouteImport } from './routes/platform.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as ProfesseurRevenusRouteImport } from './routes/professeur.revenus'
+import { Route as ProfesseurNouveauRouteImport } from './routes/professeur.nouveau'
+import { Route as PlatformProfesseursRouteImport } from './routes/platform.professeurs'
 import { Route as PlatformPartenariatsRouteImport } from './routes/platform.partenariats'
+import { Route as PlatformParametresRouteImport } from './routes/platform.parametres'
 import { Route as PlatformEtablissementsRouteImport } from './routes/platform.etablissements'
+import { Route as PlatformCoursRouteImport } from './routes/platform.cours'
 import { Route as PlatformAdminsRouteImport } from './routes/platform.admins'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppGradesRouteImport } from './routes/app.grades'
@@ -29,6 +36,11 @@ import { Route as AdminFilieresRouteImport } from './routes/admin.filieres'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminNiveauNiveauIdRouteImport } from './routes/admin.niveau.$niveauId'
 
+const ProfesseurRoute = ProfesseurRouteImport.update({
+  id: '/professeur',
+  path: '/professeur',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
@@ -54,6 +66,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfesseurIndexRoute = ProfesseurIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProfesseurRoute,
+} as any)
 const PlatformIndexRoute = PlatformIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -69,14 +86,39 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const ProfesseurRevenusRoute = ProfesseurRevenusRouteImport.update({
+  id: '/revenus',
+  path: '/revenus',
+  getParentRoute: () => ProfesseurRoute,
+} as any)
+const ProfesseurNouveauRoute = ProfesseurNouveauRouteImport.update({
+  id: '/nouveau',
+  path: '/nouveau',
+  getParentRoute: () => ProfesseurRoute,
+} as any)
+const PlatformProfesseursRoute = PlatformProfesseursRouteImport.update({
+  id: '/professeurs',
+  path: '/professeurs',
+  getParentRoute: () => PlatformRoute,
+} as any)
 const PlatformPartenariatsRoute = PlatformPartenariatsRouteImport.update({
   id: '/partenariats',
   path: '/partenariats',
   getParentRoute: () => PlatformRoute,
 } as any)
+const PlatformParametresRoute = PlatformParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => PlatformRoute,
+} as any)
 const PlatformEtablissementsRoute = PlatformEtablissementsRouteImport.update({
   id: '/etablissements',
   path: '/etablissements',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformCoursRoute = PlatformCoursRouteImport.update({
+  id: '/cours',
+  path: '/cours',
   getParentRoute: () => PlatformRoute,
 } as any)
 const PlatformAdminsRoute = PlatformAdminsRouteImport.update({
@@ -131,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
+  '/professeur': typeof ProfesseurRouteWithChildren
   '/admin/events': typeof AdminEventsRoute
   '/admin/filieres': typeof AdminFilieresRoute
   '/app/announcements': typeof AppAnnouncementsRoute
@@ -139,11 +182,17 @@ export interface FileRoutesByFullPath {
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
   '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/cours': typeof PlatformCoursRoute
   '/platform/etablissements': typeof PlatformEtablissementsRoute
+  '/platform/parametres': typeof PlatformParametresRoute
   '/platform/partenariats': typeof PlatformPartenariatsRoute
+  '/platform/professeurs': typeof PlatformProfesseursRoute
+  '/professeur/nouveau': typeof ProfesseurNouveauRoute
+  '/professeur/revenus': typeof ProfesseurRevenusRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
+  '/professeur/': typeof ProfesseurIndexRoute
   '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
 }
 export interface FileRoutesByTo {
@@ -157,11 +206,17 @@ export interface FileRoutesByTo {
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
   '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/cours': typeof PlatformCoursRoute
   '/platform/etablissements': typeof PlatformEtablissementsRoute
+  '/platform/parametres': typeof PlatformParametresRoute
   '/platform/partenariats': typeof PlatformPartenariatsRoute
+  '/platform/professeurs': typeof PlatformProfesseursRoute
+  '/professeur/nouveau': typeof ProfesseurNouveauRoute
+  '/professeur/revenus': typeof ProfesseurRevenusRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/platform': typeof PlatformIndexRoute
+  '/professeur': typeof ProfesseurIndexRoute
   '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
 }
 export interface FileRoutesById {
@@ -171,6 +226,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
+  '/professeur': typeof ProfesseurRouteWithChildren
   '/admin/events': typeof AdminEventsRoute
   '/admin/filieres': typeof AdminFilieresRoute
   '/app/announcements': typeof AppAnnouncementsRoute
@@ -179,11 +235,17 @@ export interface FileRoutesById {
   '/app/grades': typeof AppGradesRoute
   '/app/profile': typeof AppProfileRoute
   '/platform/admins': typeof PlatformAdminsRoute
+  '/platform/cours': typeof PlatformCoursRoute
   '/platform/etablissements': typeof PlatformEtablissementsRoute
+  '/platform/parametres': typeof PlatformParametresRoute
   '/platform/partenariats': typeof PlatformPartenariatsRoute
+  '/platform/professeurs': typeof PlatformProfesseursRoute
+  '/professeur/nouveau': typeof ProfesseurNouveauRoute
+  '/professeur/revenus': typeof ProfesseurRevenusRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/platform/': typeof PlatformIndexRoute
+  '/professeur/': typeof ProfesseurIndexRoute
   '/admin/niveau/$niveauId': typeof AdminNiveauNiveauIdRoute
 }
 export interface FileRouteTypes {
@@ -194,6 +256,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/platform'
+    | '/professeur'
     | '/admin/events'
     | '/admin/filieres'
     | '/app/announcements'
@@ -202,11 +265,17 @@ export interface FileRouteTypes {
     | '/app/grades'
     | '/app/profile'
     | '/platform/admins'
+    | '/platform/cours'
     | '/platform/etablissements'
+    | '/platform/parametres'
     | '/platform/partenariats'
+    | '/platform/professeurs'
+    | '/professeur/nouveau'
+    | '/professeur/revenus'
     | '/admin/'
     | '/app/'
     | '/platform/'
+    | '/professeur/'
     | '/admin/niveau/$niveauId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -220,11 +289,17 @@ export interface FileRouteTypes {
     | '/app/grades'
     | '/app/profile'
     | '/platform/admins'
+    | '/platform/cours'
     | '/platform/etablissements'
+    | '/platform/parametres'
     | '/platform/partenariats'
+    | '/platform/professeurs'
+    | '/professeur/nouveau'
+    | '/professeur/revenus'
     | '/admin'
     | '/app'
     | '/platform'
+    | '/professeur'
     | '/admin/niveau/$niveauId'
   id:
     | '__root__'
@@ -233,6 +308,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/platform'
+    | '/professeur'
     | '/admin/events'
     | '/admin/filieres'
     | '/app/announcements'
@@ -241,11 +317,17 @@ export interface FileRouteTypes {
     | '/app/grades'
     | '/app/profile'
     | '/platform/admins'
+    | '/platform/cours'
     | '/platform/etablissements'
+    | '/platform/parametres'
     | '/platform/partenariats'
+    | '/platform/professeurs'
+    | '/professeur/nouveau'
+    | '/professeur/revenus'
     | '/admin/'
     | '/app/'
     | '/platform/'
+    | '/professeur/'
     | '/admin/niveau/$niveauId'
   fileRoutesById: FileRoutesById
 }
@@ -255,10 +337,18 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   PlatformRoute: typeof PlatformRouteWithChildren
+  ProfesseurRoute: typeof ProfesseurRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/professeur': {
+      id: '/professeur'
+      path: '/professeur'
+      fullPath: '/professeur'
+      preLoaderRoute: typeof ProfesseurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/platform': {
       id: '/platform'
       path: '/platform'
@@ -294,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/professeur/': {
+      id: '/professeur/'
+      path: '/'
+      fullPath: '/professeur/'
+      preLoaderRoute: typeof ProfesseurIndexRouteImport
+      parentRoute: typeof ProfesseurRoute
+    }
     '/platform/': {
       id: '/platform/'
       path: '/'
@@ -315,6 +412,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/professeur/revenus': {
+      id: '/professeur/revenus'
+      path: '/revenus'
+      fullPath: '/professeur/revenus'
+      preLoaderRoute: typeof ProfesseurRevenusRouteImport
+      parentRoute: typeof ProfesseurRoute
+    }
+    '/professeur/nouveau': {
+      id: '/professeur/nouveau'
+      path: '/nouveau'
+      fullPath: '/professeur/nouveau'
+      preLoaderRoute: typeof ProfesseurNouveauRouteImport
+      parentRoute: typeof ProfesseurRoute
+    }
+    '/platform/professeurs': {
+      id: '/platform/professeurs'
+      path: '/professeurs'
+      fullPath: '/platform/professeurs'
+      preLoaderRoute: typeof PlatformProfesseursRouteImport
+      parentRoute: typeof PlatformRoute
+    }
     '/platform/partenariats': {
       id: '/platform/partenariats'
       path: '/partenariats'
@@ -322,11 +440,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformPartenariatsRouteImport
       parentRoute: typeof PlatformRoute
     }
+    '/platform/parametres': {
+      id: '/platform/parametres'
+      path: '/parametres'
+      fullPath: '/platform/parametres'
+      preLoaderRoute: typeof PlatformParametresRouteImport
+      parentRoute: typeof PlatformRoute
+    }
     '/platform/etablissements': {
       id: '/platform/etablissements'
       path: '/etablissements'
       fullPath: '/platform/etablissements'
       preLoaderRoute: typeof PlatformEtablissementsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/cours': {
+      id: '/platform/cours'
+      path: '/cours'
+      fullPath: '/platform/cours'
+      preLoaderRoute: typeof PlatformCoursRouteImport
       parentRoute: typeof PlatformRoute
     }
     '/platform/admins': {
@@ -433,20 +565,42 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface PlatformRouteChildren {
   PlatformAdminsRoute: typeof PlatformAdminsRoute
+  PlatformCoursRoute: typeof PlatformCoursRoute
   PlatformEtablissementsRoute: typeof PlatformEtablissementsRoute
+  PlatformParametresRoute: typeof PlatformParametresRoute
   PlatformPartenariatsRoute: typeof PlatformPartenariatsRoute
+  PlatformProfesseursRoute: typeof PlatformProfesseursRoute
   PlatformIndexRoute: typeof PlatformIndexRoute
 }
 
 const PlatformRouteChildren: PlatformRouteChildren = {
   PlatformAdminsRoute: PlatformAdminsRoute,
+  PlatformCoursRoute: PlatformCoursRoute,
   PlatformEtablissementsRoute: PlatformEtablissementsRoute,
+  PlatformParametresRoute: PlatformParametresRoute,
   PlatformPartenariatsRoute: PlatformPartenariatsRoute,
+  PlatformProfesseursRoute: PlatformProfesseursRoute,
   PlatformIndexRoute: PlatformIndexRoute,
 }
 
 const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
   PlatformRouteChildren,
+)
+
+interface ProfesseurRouteChildren {
+  ProfesseurNouveauRoute: typeof ProfesseurNouveauRoute
+  ProfesseurRevenusRoute: typeof ProfesseurRevenusRoute
+  ProfesseurIndexRoute: typeof ProfesseurIndexRoute
+}
+
+const ProfesseurRouteChildren: ProfesseurRouteChildren = {
+  ProfesseurNouveauRoute: ProfesseurNouveauRoute,
+  ProfesseurRevenusRoute: ProfesseurRevenusRoute,
+  ProfesseurIndexRoute: ProfesseurIndexRoute,
+}
+
+const ProfesseurRouteWithChildren = ProfesseurRoute._addFileChildren(
+  ProfesseurRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
@@ -455,6 +609,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   PlatformRoute: PlatformRouteWithChildren,
+  ProfesseurRoute: ProfesseurRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
