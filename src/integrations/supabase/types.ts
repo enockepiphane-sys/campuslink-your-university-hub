@@ -47,61 +47,6 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "activity_logs_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      admins: {
-        Row: {
-          created_at: string
-          date_naissance: string
-          email: string
-          etablissement_id: string
-          id: string
-          nom_complet: string
-          statut: string
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          date_naissance: string
-          email: string
-          etablissement_id: string
-          id?: string
-          nom_complet: string
-          statut?: string
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          date_naissance?: string
-          email?: string
-          etablissement_id?: string
-          id?: string
-          nom_complet?: string
-          statut?: string
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "admins_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "admins_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
         ]
       }
       annonces: {
@@ -110,9 +55,7 @@ export type Database = {
           contenu: string
           created_at: string
           etablissement_id: string
-          filiere_id: string | null
           id: string
-          niveau_id: string | null
           tag: string | null
           titre: string
           urgent: boolean | null
@@ -122,9 +65,7 @@ export type Database = {
           contenu: string
           created_at?: string
           etablissement_id: string
-          filiere_id?: string | null
           id?: string
-          niveau_id?: string | null
           tag?: string | null
           titre: string
           urgent?: boolean | null
@@ -134,9 +75,7 @@ export type Database = {
           contenu?: string
           created_at?: string
           etablissement_id?: string
-          filiere_id?: string | null
           id?: string
-          niveau_id?: string | null
           tag?: string | null
           titre?: string
           urgent?: boolean | null
@@ -147,27 +86,6 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "annonces_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "annonces_filiere_id_fkey"
-            columns: ["filiere_id"]
-            isOneToOne: false
-            referencedRelation: "filieres"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "annonces_niveau_id_fkey"
-            columns: ["niveau_id"]
-            isOneToOne: false
-            referencedRelation: "niveaux"
             referencedColumns: ["id"]
           },
         ]
@@ -251,13 +169,6 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "emplois_du_temps_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
           {
@@ -379,13 +290,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "etudiants_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "etudiants_filiere_id_fkey"
             columns: ["filiere_id"]
             isOneToOne: false
@@ -443,13 +347,6 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "evenements_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
         ]
       }
       filieres: {
@@ -477,13 +374,6 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "filieres_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
         ]
@@ -531,13 +421,6 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "liste_officielle_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
             referencedColumns: ["id"]
           },
           {
@@ -599,13 +482,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "matieres_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "matieres_filiere_id_fkey"
             columns: ["filiere_id"]
             isOneToOne: false
@@ -625,7 +501,6 @@ export type Database = {
         Row: {
           created_at: string
           etablissement_id: string
-          filiere_id: string | null
           id: string
           nom: string
           ordre: number | null
@@ -633,7 +508,6 @@ export type Database = {
         Insert: {
           created_at?: string
           etablissement_id: string
-          filiere_id?: string | null
           id?: string
           nom: string
           ordre?: number | null
@@ -641,7 +515,6 @@ export type Database = {
         Update: {
           created_at?: string
           etablissement_id?: string
-          filiere_id?: string | null
           id?: string
           nom?: string
           ordre?: number | null
@@ -652,20 +525,6 @@ export type Database = {
             columns: ["etablissement_id"]
             isOneToOne: false
             referencedRelation: "etablissements"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "niveaux_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "niveaux_filiere_id_fkey"
-            columns: ["filiere_id"]
-            isOneToOne: false
-            referencedRelation: "filieres"
             referencedColumns: ["id"]
           },
         ]
@@ -784,41 +643,7 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "profiles_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
         ]
-      }
-      super_admins: {
-        Row: {
-          created_at: string
-          date_naissance: string
-          email: string
-          id: string
-          nom_complet: string
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          date_naissance: string
-          email: string
-          id?: string
-          nom_complet: string
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          date_naissance?: string
-          email?: string
-          id?: string
-          nom_complet?: string
-          user_id?: string | null
-        }
-        Relationships: []
       }
       user_roles: {
         Row: {
@@ -850,56 +675,11 @@ export type Database = {
             referencedRelation: "etablissements"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "user_roles_etablissement_id_fkey"
-            columns: ["etablissement_id"]
-            isOneToOne: false
-            referencedRelation: "etablissements_public"
-            referencedColumns: ["id"]
-          },
         ]
       }
     }
     Views: {
-      etablissements_public: {
-        Row: {
-          categorie:
-            | Database["public"]["Enums"]["etablissement_categorie"]
-            | null
-          description: string | null
-          id: string | null
-          logo_url: string | null
-          nom: string | null
-          pays: string | null
-          statut: Database["public"]["Enums"]["etablissement_statut"] | null
-          ville: string | null
-        }
-        Insert: {
-          categorie?:
-            | Database["public"]["Enums"]["etablissement_categorie"]
-            | null
-          description?: string | null
-          id?: string | null
-          logo_url?: string | null
-          nom?: string | null
-          pays?: string | null
-          statut?: Database["public"]["Enums"]["etablissement_statut"] | null
-          ville?: string | null
-        }
-        Update: {
-          categorie?:
-            | Database["public"]["Enums"]["etablissement_categorie"]
-            | null
-          description?: string | null
-          id?: string | null
-          logo_url?: string | null
-          nom?: string | null
-          pays?: string | null
-          statut?: Database["public"]["Enums"]["etablissement_statut"] | null
-          ville?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       current_etablissement_id: { Args: never; Returns: string }
@@ -913,16 +693,6 @@ export type Database = {
       is_admin_of: {
         Args: { _etablissement_id: string; _user_id: string }
         Returns: boolean
-      }
-      lookup_user_by_email_birthdate: {
-        Args: { _date_naissance: string; _email: string }
-        Returns: {
-          etablissement_id: string
-          filiere_id: string
-          niveau_id: string
-          nom_complet: string
-          role: string
-        }[]
       }
       verify_student_identity: {
         Args: {
