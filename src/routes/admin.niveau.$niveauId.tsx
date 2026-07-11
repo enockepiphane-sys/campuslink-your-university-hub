@@ -92,7 +92,7 @@ function StudentsTab({ niveauId, eid, filiereId }: { niveauId: string; eid: stri
     const { data } = await supabase.from("etudiants")
       .select("id,nom_complet,email,matricule,date_naissance")
       .eq("niveau_id", niveauId)
-      .eq("filiere_id", filiereId)
+      .eq("filiere_id", filiereId ?? "")
       .order("nom_complet");
     setRows(data ?? []);
   }
@@ -118,7 +118,7 @@ function StudentsTab({ niveauId, eid, filiereId }: { niveauId: string; eid: stri
     const officielInserts = parsed.map((r) => ({
       ...r,
       etablissement_id: eid,
-      filiere_id: filiereId,
+      filiere_id: filiereId ?? null,
       niveau_id: niveauId,
     }));
 
@@ -189,7 +189,7 @@ function AnnoncesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: stri
   async function refresh() {
     const { data } = await supabase.from("annonces")
       .select("id,titre,contenu,tag,urgent,created_at")
-      .eq("filiere_id", filiereId)
+      .eq("filiere_id", filiereId ?? "")
       .eq("niveau_id", niveauId)
       .order("created_at", { ascending: false });
     setRows(data ?? []);
@@ -201,7 +201,7 @@ function AnnoncesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: stri
     if (!eid || !form.titre) return;
     const { error } = await supabase.from("annonces").insert({
       titre: form.titre, contenu: form.contenu, tag: form.tag || null, urgent: form.urgent,
-      etablissement_id: eid, filiere_id: filiereId, niveau_id: niveauId,
+      etablissement_id: eid, filiere_id: filiereId ?? null, niveau_id: niveauId,
     });
     if (error) { alert(error.message); return; }
     setForm({ titre: "", contenu: "", tag: "", urgent: false });
@@ -260,7 +260,7 @@ function EmploiTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string
   async function refresh() {
     const { data } = await supabase.from("emplois_du_temps")
       .select("id,matiere,jour,heure_debut,heure_fin,salle,enseignant")
-      .eq("filiere_id", filiereId)
+      .eq("filiere_id", filiereId ?? "")
       .eq("niveau_id", niveauId)
       .order("heure_debut");
     setRows(data ?? []);
@@ -271,7 +271,7 @@ function EmploiTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string
   async function add() {
     if (!eid || !form.matiere) return;
     const { error } = await supabase.from("emplois_du_temps").insert({
-      etablissement_id: eid, filiere_id: filiereId, niveau_id: niveauId,
+      etablissement_id: eid, filiere_id: filiereId ?? null, niveau_id: niveauId,
       matiere: form.matiere, jour: form.jour,
       heure_debut: form.heure_debut || null, heure_fin: form.heure_fin || null,
       salle: form.salle || null, enseignant: form.enseignant || null,
@@ -344,8 +344,8 @@ function NotesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string 
   async function refresh() {
     if (!eid) return;
     const [e, m, n] = await Promise.all([
-      supabase.from("etudiants").select("id,nom_complet,email,matricule,date_naissance").eq("etablissement_id", eid).eq("filiere_id", filiereId).eq("niveau_id", niveauId).order("nom_complet"),
-      supabase.from("matieres").select("id,nom,code,credit").eq("etablissement_id", eid).eq("filiere_id", filiereId).eq("niveau_id", niveauId).order("nom"),
+      supabase.from("etudiants").select("id,nom_complet,email,matricule,date_naissance").eq("etablissement_id", eid).eq("filiere_id", filiereId ?? "").eq("niveau_id", niveauId).order("nom_complet"),
+      supabase.from("matieres").select("id,nom,code,credit").eq("etablissement_id", eid).eq("filiere_id", filiereId ?? "").eq("niveau_id", niveauId).order("nom"),
       supabase.from("notes").select("id,etudiant_id,matiere_id,note,published"),
     ]);
     setEtudiants(e.data ?? []);
@@ -359,7 +359,7 @@ function NotesTab({ niveauId, eid, filiereId }: { niveauId: string; eid: string 
     if (!eid || !newMat.nom) return;
     const { error } = await supabase.from("matieres").insert({
       nom: newMat.nom, code: newMat.code || null, credit: newMat.credit || null,
-      etablissement_id: eid, filiere_id: filiereId, niveau_id: niveauId,
+      etablissement_id: eid, filiere_id: filiereId ?? null, niveau_id: niveauId,
     });
     if (error) { alert(error.message); return; }
     setNewMat({ nom: "", code: "", credit: 0 });
