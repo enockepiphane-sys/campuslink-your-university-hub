@@ -17,10 +17,9 @@ function Landing() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: "Fonctionnalités", href: "#features" },
-    { label: "Cours en ligne", href: "#cours-en-ligne" },
-    { label: "Devenir partenaire", href: "#partenariat" },
-    { label: "Politique de confidentialité", href: "#confidentialite" },
+    { label: "Fonctionnalités", to: "/fonctionnalites" },
+    { label: "Cours en ligne", to: "/cours-en-ligne" },
+    { label: "Politique de confidentialité", to: "/politique-confidentialite" },
   ];
 
   return (
@@ -38,7 +37,7 @@ function Landing() {
           {/* Desktop nav */}
           <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground lg:flex">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className="hover:text-foreground transition-colors">{l.label}</a>
+              <Link key={l.to} to={l.to} className="hover:text-foreground transition-colors">{l.label}</Link>
             ))}
           </nav>
 
@@ -65,13 +64,10 @@ function Landing() {
           <div className="border-t border-border bg-surface lg:hidden">
             <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-3">
               {navLinks.map((l) => (
-                <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                <Link key={l.to} to={l.to} onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                   {l.label}
-                </a>
+                </Link>
               ))}
-              <Link to="/login" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-primary px-5 py-2.5 text-center text-sm font-medium text-primary-foreground shadow-elegant">
-                Se connecter
-              </Link>
             </nav>
           </div>
         )}
@@ -124,57 +120,8 @@ function Landing() {
         </div>
       </section>
 
-      <section id="features" className="mx-auto max-w-7xl px-6 py-16">
-        <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Fonctionnalités</p>
-        <h2 className="mt-2 max-w-2xl font-display text-3xl font-bold md:text-4xl">Une plateforme pensée pour les universités du Burkina Faso.</h2>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {[
-            { t: "Multi-établissements", d: "Chaque université dispose de son propre espace, ses filières et ses utilisateurs — isolés et sécurisés.", i: "🏛️" },
-            { t: "App étudiant mobile", d: "Notes, annonces, événements, profil. Une expérience fluide sur Android et iOS.", i: "📱" },
-            { t: "Back-office web", d: "Gestion des étudiants, import CSV/Excel, publication centralisée pour l'administration.", i: "🖥️" },
-            { t: "Vérification d'identité", d: "L'étudiant s'inscrit seul, comparé à la liste officielle importée par l'administration.", i: "🔐" },
-            { t: "Notes contrôlées", d: "Publication décidée par l'admin, visibilité stricte pour chaque étudiant.", i: "📊" },
-            { t: "Évolutif", d: "Enseignants, emplois du temps, notifications, paiement, bibliothèque — l'architecture est prête.", i: "🚀" },
-          ].map((f) => (
-            <div key={f.t} className="group rounded-3xl border border-border bg-surface p-6 transition hover:-translate-y-1 hover:shadow-card">
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary-soft text-2xl">{f.i}</div>
-              <h3 className="mt-4 font-display text-lg font-semibold">{f.t}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Online courses section */}
-      <section id="cours-en-ligne" className="mx-auto max-w-7xl px-6 py-16">
-        <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Cours en ligne</p>
-        <h2 className="mt-2 max-w-2xl font-display text-3xl font-bold md:text-4xl">Apprenez avec les meilleurs professeurs.</h2>
-        <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-          Accédez à des cours en vidéo proposés par des professeurs qualifiés. Paiement via Orange Money, Moov Money ou carte bancaire.
-        </p>
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl border border-border bg-surface p-6">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gold/20 text-2xl">🎓</div>
-            <h3 className="mt-4 font-display text-lg font-semibold">Pour les étudiants</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Catalogue de cours filtrable par matière et niveau. Achat sécurisé via Mobile Money ou carte bancaire.</p>
-            <Link to="/login" className="mt-4 inline-flex rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">
-              Explorer les cours →
-            </Link>
-          </div>
-          <div className="rounded-3xl border border-border bg-surface p-6">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-terracotta/20 text-2xl">👨‍🏫</div>
-            <h3 className="mt-4 font-display text-lg font-semibold">Vous êtes professeur ?</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Proposez vos cours en ligne, touchez des revenus sur chaque vente. Notre équipe valide votre profil.</p>
-            <a href="#candidature-professeur" className="mt-4 inline-flex rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-white">
-              Proposer vos cours →
-            </a>
-          </div>
-        </div>
-      </section>
-
       <PartnershipSection />
       <ProfessorSection />
-      <PrivacySection />
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
@@ -290,20 +237,4 @@ function ProfessorSection() {
   );
 }
 
-function PrivacySection() {
-  return (
-    <section id="confidentialite" className="mx-auto max-w-7xl px-6 pb-20">
-      <div className="rounded-3xl border border-border bg-surface p-8 md:p-12">
-        <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Confidentialité</p>
-        <h3 className="mt-2 font-display text-3xl font-bold">Politique de confidentialité</h3>
-        <div className="mt-6 space-y-4 text-sm text-muted-foreground">
-          <p><strong className="text-foreground">Collecte des données.</strong> CampusLink collecte les informations nécessaires au fonctionnement du service : nom, email, date de naissance, établissement, filière et niveau. Ces données sont fournies par votre établissement ou par vous-même lors de l'inscription.</p>
-          <p><strong className="text-foreground">Utilisation.</strong> Vos données sont utilisées uniquement pour vous identifier, afficher vos informations académiques (notes, annonces, événements) et vous permettre d'accéder aux services CampusLink.</p>
-          <p><strong className="text-foreground">Sécurité.</strong> Chaque établissement dispose d'un espace isolé. Les données d'un établissement ne sont jamais visibles par un autre. L'accès est contrôlé par des politiques de sécurité au niveau de la base de données (RLS).</p>
-          <p><strong className="text-foreground">Paiements.</strong> Les paiements pour les cours en ligne sont traités par des tiers (Orange Money, Moov Money, stripe). CampusLink ne stocke pas vos informations de carte bancaire.</p>
-          <p><strong className="text-foreground">Vos droits.</strong> Vous pouvez demander l'accès, la modification ou la suppression de vos données à tout moment en contactant votre établissement ou l'équipe CampusLink.</p>
-        </div>
-      </div>
-    </section>
-  );
-}
+

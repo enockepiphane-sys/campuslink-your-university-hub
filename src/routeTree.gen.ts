@@ -10,8 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfesseurRouteImport } from './routes/professeur'
+import { Route as PolitiqueConfidentialiteRouteImport } from './routes/politique-confidentialite'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as FonctionnalitesRouteImport } from './routes/fonctionnalites'
+import { Route as CoursEnLigneRouteImport } from './routes/cours-en-ligne'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -41,6 +44,12 @@ const ProfesseurRoute = ProfesseurRouteImport.update({
   path: '/professeur',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PolitiqueConfidentialiteRoute =
+  PolitiqueConfidentialiteRouteImport.update({
+    id: '/politique-confidentialite',
+    path: '/politique-confidentialite',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
@@ -49,6 +58,16 @@ const PlatformRoute = PlatformRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FonctionnalitesRoute = FonctionnalitesRouteImport.update({
+  id: '/fonctionnalites',
+  path: '/fonctionnalites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursEnLigneRoute = CoursEnLigneRouteImport.update({
+  id: '/cours-en-ligne',
+  path: '/cours-en-ligne',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -171,8 +190,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/cours-en-ligne': typeof CoursEnLigneRoute
+  '/fonctionnalites': typeof FonctionnalitesRoute
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
+  '/politique-confidentialite': typeof PolitiqueConfidentialiteRoute
   '/professeur': typeof ProfesseurRouteWithChildren
   '/admin/events': typeof AdminEventsRoute
   '/admin/filieres': typeof AdminFilieresRoute
@@ -197,7 +219,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cours-en-ligne': typeof CoursEnLigneRoute
+  '/fonctionnalites': typeof FonctionnalitesRoute
   '/login': typeof LoginRoute
+  '/politique-confidentialite': typeof PolitiqueConfidentialiteRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/filieres': typeof AdminFilieresRoute
   '/app/announcements': typeof AppAnnouncementsRoute
@@ -224,8 +249,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/cours-en-ligne': typeof CoursEnLigneRoute
+  '/fonctionnalites': typeof FonctionnalitesRoute
   '/login': typeof LoginRoute
   '/platform': typeof PlatformRouteWithChildren
+  '/politique-confidentialite': typeof PolitiqueConfidentialiteRoute
   '/professeur': typeof ProfesseurRouteWithChildren
   '/admin/events': typeof AdminEventsRoute
   '/admin/filieres': typeof AdminFilieresRoute
@@ -254,8 +282,11 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/app'
+    | '/cours-en-ligne'
+    | '/fonctionnalites'
     | '/login'
     | '/platform'
+    | '/politique-confidentialite'
     | '/professeur'
     | '/admin/events'
     | '/admin/filieres'
@@ -280,7 +311,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cours-en-ligne'
+    | '/fonctionnalites'
     | '/login'
+    | '/politique-confidentialite'
     | '/admin/events'
     | '/admin/filieres'
     | '/app/announcements'
@@ -306,8 +340,11 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/app'
+    | '/cours-en-ligne'
+    | '/fonctionnalites'
     | '/login'
     | '/platform'
+    | '/politique-confidentialite'
     | '/professeur'
     | '/admin/events'
     | '/admin/filieres'
@@ -335,8 +372,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
+  CoursEnLigneRoute: typeof CoursEnLigneRoute
+  FonctionnalitesRoute: typeof FonctionnalitesRoute
   LoginRoute: typeof LoginRoute
   PlatformRoute: typeof PlatformRouteWithChildren
+  PolitiqueConfidentialiteRoute: typeof PolitiqueConfidentialiteRoute
   ProfesseurRoute: typeof ProfesseurRouteWithChildren
 }
 
@@ -347,6 +387,13 @@ declare module '@tanstack/react-router' {
       path: '/professeur'
       fullPath: '/professeur'
       preLoaderRoute: typeof ProfesseurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politique-confidentialite': {
+      id: '/politique-confidentialite'
+      path: '/politique-confidentialite'
+      fullPath: '/politique-confidentialite'
+      preLoaderRoute: typeof PolitiqueConfidentialiteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/platform': {
@@ -361,6 +408,20 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fonctionnalites': {
+      id: '/fonctionnalites'
+      path: '/fonctionnalites'
+      fullPath: '/fonctionnalites'
+      preLoaderRoute: typeof FonctionnalitesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cours-en-ligne': {
+      id: '/cours-en-ligne'
+      path: '/cours-en-ligne'
+      fullPath: '/cours-en-ligne'
+      preLoaderRoute: typeof CoursEnLigneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -607,8 +668,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
+  CoursEnLigneRoute: CoursEnLigneRoute,
+  FonctionnalitesRoute: FonctionnalitesRoute,
   LoginRoute: LoginRoute,
   PlatformRoute: PlatformRouteWithChildren,
+  PolitiqueConfidentialiteRoute: PolitiqueConfidentialiteRoute,
   ProfesseurRoute: ProfesseurRouteWithChildren,
 }
 export const routeTree = rootRouteImport
