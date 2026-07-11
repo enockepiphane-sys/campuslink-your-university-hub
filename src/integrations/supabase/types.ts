@@ -65,6 +65,7 @@ export type Database = {
           id: string
           nom_complet: string
           statut: string
+          telephone: string | null
           user_id: string | null
         }
         Insert: {
@@ -75,6 +76,7 @@ export type Database = {
           id?: string
           nom_complet: string
           statut?: string
+          telephone?: string | null
           user_id?: string | null
         }
         Update: {
@@ -85,6 +87,7 @@ export type Database = {
           id?: string
           nom_complet?: string
           statut?: string
+          telephone?: string | null
           user_id?: string | null
         }
         Relationships: [
@@ -172,6 +175,83 @@ export type Database = {
           },
         ]
       }
+      cours_achats: {
+        Row: {
+          cours_id: string
+          created_at: string
+          etudiant_id: string
+          id: string
+          methode_paiement: string | null
+          montant: number
+          statut: string
+        }
+        Insert: {
+          cours_id: string
+          created_at?: string
+          etudiant_id: string
+          id?: string
+          methode_paiement?: string | null
+          montant?: number
+          statut?: string
+        }
+        Update: {
+          cours_id?: string
+          created_at?: string
+          etudiant_id?: string
+          id?: string
+          methode_paiement?: string | null
+          montant?: number
+          statut?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cours_achats_cours_id_fkey"
+            columns: ["cours_id"]
+            isOneToOne: false
+            referencedRelation: "cours_en_ligne"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cours_en_ligne: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          matiere: string
+          niveau: string | null
+          prix: number
+          professeur_id: string
+          statut: string
+          titre: string
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          matiere: string
+          niveau?: string | null
+          prix?: number
+          professeur_id: string
+          statut?: string
+          titre: string
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          matiere?: string
+          niveau?: string | null
+          prix?: number
+          professeur_id?: string
+          statut?: string
+          titre?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       demandes_partenariat: {
         Row: {
           created_at: string
@@ -202,6 +282,39 @@ export type Database = {
           responsable?: string
           statut?: string | null
           telephone?: string | null
+        }
+        Relationships: []
+      }
+      demandes_professeur: {
+        Row: {
+          created_at: string
+          email: string
+          etablissement_origine: string | null
+          experience: string | null
+          id: string
+          matiere: string
+          nom_complet: string
+          statut: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          etablissement_origine?: string | null
+          experience?: string | null
+          id?: string
+          matiere: string
+          nom_complet: string
+          statut?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          etablissement_origine?: string | null
+          experience?: string | null
+          id?: string
+          matiere?: string
+          nom_complet?: string
+          statut?: string
         }
         Relationships: []
       }
@@ -742,6 +855,27 @@ export type Database = {
           titre?: string
           type?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      parametres_plateforme: {
+        Row: {
+          commission_percentage: number
+          created_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          commission_percentage?: number
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          commission_percentage?: number
+          created_at?: string
+          id?: string
+          updated_at?: string
         }
         Relationships: []
       }
