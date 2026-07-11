@@ -42,6 +42,40 @@ function FonctionnalitesPage() {
             </div>
           ))}
         </div>
+
+        <div className="mt-16 rounded-3xl border border-border bg-surface p-8 md:p-12">
+          <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Focus — Cours en ligne</p>
+          <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">Une marketplace de cours ouverte à tous les étudiants.</h2>
+          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+            CampusLink intègre un espace de cours en ligne dédié : les professeurs partagent leurs cours vidéo,
+            les étudiants les achètent et les consultent depuis leur téléphone.
+          </p>
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            <div className="rounded-2xl bg-primary-soft p-5">
+              <div className="text-2xl">🎓</div>
+              <h3 className="mt-2 font-display text-lg font-semibold">Pour les étudiants</h3>
+              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                <li>✓ Catalogue filtrable par matière et niveau</li>
+                <li>✓ Paiement Orange Money, Moov Money ou carte</li>
+                <li>✓ Lecture vidéo depuis l'app mobile</li>
+                <li>✓ Accès à vie aux cours achetés</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl bg-terracotta/10 p-5">
+              <div className="text-2xl">👨‍🏫</div>
+              <h3 className="mt-2 font-display text-lg font-semibold">Pour les professeurs</h3>
+              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                <li>✓ Espace dédié pour publier vos cours vidéo</li>
+                <li>✓ Fixez librement vos prix</li>
+                <li>✓ Revenus partagés avec la plateforme</li>
+                <li>✓ Accès accordé après validation du super administrateur</li>
+              </ul>
+            </div>
+          </div>
+          <Link to="/cours-en-ligne" className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
+            Découvrir les cours en ligne →
+          </Link>
+        </div>
       </section>
     </div>
   );

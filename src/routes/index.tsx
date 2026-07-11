@@ -69,6 +69,16 @@ function Landing() {
                   {l.label}
                 </Link>
               ))}
+              <div className="mt-2 rounded-xl border border-border bg-muted/40 p-3">
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-terracotta">Cours en ligne</p>
+                <Link to="/login/etudiant" onClick={() => setMenuOpen(false)} className="mb-2 block rounded-lg bg-primary px-3 py-2.5 text-center text-sm font-semibold text-primary-foreground">
+                  🎓 Étudiants — Accéder aux cours
+                </Link>
+                <Link to="/professeur" onClick={() => setMenuOpen(false)} className="block rounded-lg bg-terracotta px-3 py-2.5 text-center text-sm font-semibold text-white">
+                  👨‍🏫 Professeurs — Mon espace cours
+                </Link>
+                <p className="mt-2 text-[10px] text-muted-foreground">L'accès professeur nécessite une validation du super administrateur.</p>
+              </div>
               <Link to="/login/admin" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full border border-border bg-surface px-5 py-2.5 text-center text-sm font-medium text-foreground">Accéder au compte professionnel</Link>
               <Link to="/login/etudiant" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-primary px-5 py-2.5 text-center text-sm font-medium text-primary-foreground">Se connecter au compte étudiant</Link>
             </nav>
