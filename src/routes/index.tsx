@@ -121,7 +121,6 @@ function Landing() {
       </section>
 
       <PartnershipSection />
-      <ProfessorSection />
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
@@ -184,57 +183,4 @@ function PartnershipSection() {
     </section>
   );
 }
-
-function ProfessorSection() {
-  const [state, setState] = useState<"idle"|"sending"|"sent"|"error">("idle");
-  const [err, setErr] = useState("");
-
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setState("sending"); setErr("");
-    const f = new FormData(e.currentTarget);
-    const payload = {
-      nom_complet: String(f.get("nom_complet") || ""),
-      email: String(f.get("email") || ""),
-      matiere: String(f.get("matiere") || ""),
-      etablissement_origine: String(f.get("etablissement_origine") || ""),
-      experience: String(f.get("experience") || ""),
-    };
-    const { error } = await supabase.from("demandes_professeur").insert(payload);
-    if (error) { setState("error"); setErr(error.message); return; }
-    setState("sent");
-    (e.target as HTMLFormElement).reset();
-  }
-
-  return (
-    <section id="candidature-professeur" className="mx-auto max-w-7xl px-6 pb-20">
-      <div className="grid gap-8 rounded-3xl border border-border bg-surface p-8 md:grid-cols-[1.1fr_1fr] md:p-12">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-terracotta">Espace professeur</p>
-          <h3 className="mt-2 font-display text-3xl font-bold md:text-4xl">Proposez vos cours en ligne.</h3>
-          <p className="mt-4 max-w-md text-sm text-muted-foreground">Vous enseignez à l'université ou dans une école supérieure ? Devenez professeur CampusLink et proposez vos cours en vidéo aux étudiants de tout le pays.</p>
-          <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
-            <li>✓ Uploadez vos cours en vidéo</li>
-            <li>✓ Fixez vos prix par cours</li>
-            <li>✓ Touchez des revenus sur chaque vente</li>
-            <li>✓ Suivez vos statistiques de vente</li>
-          </ul>
-        </div>
-        <form onSubmit={submit} className="space-y-3 rounded-2xl bg-muted/40 p-6">
-          <input name="nom_complet" required placeholder="Nom complet" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
-          <input name="email" type="email" required placeholder="Email" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
-          <input name="matiere" required placeholder="Matière enseignée" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
-          <input name="etablissement_origine" placeholder="Établissement d'origine" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
-          <textarea name="experience" rows={3} placeholder="Décrivez votre expérience d'enseignement" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" />
-          <button disabled={state==="sending"} className="w-full rounded-xl bg-terracotta py-3 text-sm font-semibold text-white disabled:opacity-60">
-            {state==="sending" ? "Envoi…" : "Envoyer ma candidature"}
-          </button>
-          {state==="sent" && <p className="text-xs text-emerald-600">✓ Candidature envoyée. Notre équipe vous recontactera pour valider votre profil.</p>}
-          {state==="error" && <p className="text-xs text-red-600">Erreur : {err}</p>}
-        </form>
-      </div>
-    </section>
-  );
-}
-
 

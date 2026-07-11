@@ -32,6 +32,7 @@ function FonctionnalitesPage() {
             { t: "Back-office web", d: "Gestion des étudiants, import CSV/Excel, publication centralisée pour l'administration.", i: "🖥️" },
             { t: "Vérification d'identité", d: "L'étudiant s'inscrit seul, comparé à la liste officielle importée par l'administration.", i: "🔐" },
             { t: "Notes contrôlées", d: "Publication décidée par l'admin, visibilité stricte pour chaque étudiant.", i: "📊" },
+            { t: "Cours en ligne", d: "Les professeurs publient des cours en vidéo, les étudiants achètent via Mobile Money ou carte bancaire. Revenus partagés entre professeur et plateforme.", i: "🎥" },
             { t: "Évolutif", d: "Enseignants, emplois du temps, notifications, paiement, bibliothèque — l'architecture est prête.", i: "🚀" },
           ].map((f) => (
             <div key={f.t} className="group rounded-3xl border border-border bg-surface p-6 transition hover:-translate-y-1 hover:shadow-card">
