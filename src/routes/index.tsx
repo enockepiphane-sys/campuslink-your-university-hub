@@ -93,7 +93,7 @@ function Landing() {
               <Link to="/register" className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-elegant hover:opacity-95">
                 S'inscrire au compte étudiant
               </Link>
-              <Link to="/login" className="inline-flex items-center justify-center rounded-xl border border-primary bg-background px-5 py-3 text-sm font-semibold text-primary hover:bg-primary-soft/60">
+              <Link to="/login" search={{ role: "etudiant" }} className="inline-flex items-center justify-center rounded-xl border border-primary bg-background px-5 py-3 text-sm font-semibold text-primary hover:bg-primary-soft/60">
                 Se connecter au compte étudiant
               </Link>
             </div>
@@ -111,16 +111,19 @@ function Landing() {
               </div>
             </div>
             <div className="mt-5 grid gap-2.5">
-              <Link to="/login" className="inline-flex items-center justify-center rounded-xl bg-terracotta px-5 py-3 text-sm font-semibold text-white shadow-elegant hover:opacity-95">
+              <Link to="/login" search={{ mode: "signup", role: "admin_etablissement" }} className="inline-flex items-center justify-center rounded-xl bg-terracotta px-5 py-3 text-sm font-semibold text-white shadow-elegant hover:opacity-95">
                 S'inscrire à mon compte administrateur
               </Link>
-              <Link to="/login" className="inline-flex items-center justify-center rounded-xl border border-terracotta bg-background px-5 py-3 text-sm font-semibold text-terracotta hover:bg-accent/60">
+              <Link to="/login" search={{ role: "admin_etablissement" }} className="inline-flex items-center justify-center rounded-xl border border-terracotta bg-background px-5 py-3 text-sm font-semibold text-terracotta hover:bg-accent/60">
                 Se connecter à mon compte administrateur
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      <PartnershipSection />
+
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
