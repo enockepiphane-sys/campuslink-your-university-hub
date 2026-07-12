@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Logo, KenteBar } from "@/components/campus/ui";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   component: Landing,
