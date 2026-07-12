@@ -66,6 +66,12 @@ function RegisterPage() {
 
   async function creerCompte() {
     setBusy(true); setError("");
+    const { data: existingRole } = await supabase.rpc("email_role", { _email: email });
+    if (existingRole) {
+      setError("Vous êtes déjà inscrit(e). Veuillez vous connecter.");
+      setBusy(false);
+      return;
+    }
     const { error: sErr } = await supabase.auth.signUp({
       email, password, options: { data: { nom_complet } },
     });
