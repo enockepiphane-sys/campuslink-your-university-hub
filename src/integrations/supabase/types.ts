@@ -1037,6 +1037,7 @@ export type Database = {
     }
     Functions: {
       current_etablissement_id: { Args: never; Returns: string }
+      email_role: { Args: { _email: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
