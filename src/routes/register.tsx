@@ -33,7 +33,7 @@ function RegisterPage() {
   const [date_naissance, setDate] = useState("");
 
   useEffect(() => {
-    supabase.from("etablissements").select("id,nom").eq("statut", "Actif").order("nom")
+    supabase.from("etablissements").select("id,nom").eq("statut", "actif").order("nom")
       .then(({ data }) => setEtabs(data ?? []));
   }, []);
 
