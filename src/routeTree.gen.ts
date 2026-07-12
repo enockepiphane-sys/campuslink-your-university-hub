@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SuperAdminAccesRouteImport } from './routes/super-admin-acces'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PartenariatRouteImport } from './routes/partenariat'
@@ -33,6 +34,11 @@ import { Route as AdminGradesRouteImport } from './routes/admin.grades'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
+const SuperAdminAccesRoute = SuperAdminAccesRouteImport.update({
+  id: '/super-admin-acces',
+  path: '/super-admin-acces',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/partenariat': typeof PartenariatRoute
   '/platform': typeof PlatformRouteWithChildren
   '/register': typeof RegisterRoute
+  '/super-admin-acces': typeof SuperAdminAccesRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/partenariat': typeof PartenariatRoute
   '/register': typeof RegisterRoute
+  '/super-admin-acces': typeof SuperAdminAccesRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/partenariat': typeof PartenariatRoute
   '/platform': typeof PlatformRouteWithChildren
   '/register': typeof RegisterRoute
+  '/super-admin-acces': typeof SuperAdminAccesRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/grades': typeof AdminGradesRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/partenariat'
     | '/platform'
     | '/register'
+    | '/super-admin-acces'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/partenariat'
     | '/register'
+    | '/super-admin-acces'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/partenariat'
     | '/platform'
     | '/register'
+    | '/super-admin-acces'
     | '/admin/announcements'
     | '/admin/events'
     | '/admin/grades'
@@ -307,10 +319,18 @@ export interface RootRouteChildren {
   PartenariatRoute: typeof PartenariatRoute
   PlatformRoute: typeof PlatformRouteWithChildren
   RegisterRoute: typeof RegisterRoute
+  SuperAdminAccesRoute: typeof SuperAdminAccesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/super-admin-acces': {
+      id: '/super-admin-acces'
+      path: '/super-admin-acces'
+      fullPath: '/super-admin-acces'
+      preLoaderRoute: typeof SuperAdminAccesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -539,17 +559,8 @@ const rootRouteChildren: RootRouteChildren = {
   PartenariatRoute: PartenariatRoute,
   PlatformRoute: PlatformRouteWithChildren,
   RegisterRoute: RegisterRoute,
+  SuperAdminAccesRoute: SuperAdminAccesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

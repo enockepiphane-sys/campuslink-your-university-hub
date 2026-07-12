@@ -1,24 +1,33 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import { Logo, KenteBar } from "@/components/campus/ui";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, roleHomePath } from "@/lib/use-auth";
 import { claimSuperAdminIfEmpty } from "@/lib/admin-account.functions";
 
+const searchSchema = z.object({
+  mode: z.enum(["login", "signup"]).optional(),
+  role: z.enum(["etudiant", "admin_etablissement"]).optional(),
+});
+
 export const Route = createFileRoute("/login")({
   component: LoginPage,
+  validateSearch: (s) => searchSchema.parse(s),
   head: () => ({ meta: [{ title: "Connexion — CampusLink" }] }),
 });
 
 function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"login"|"signup">("login");
+  const search = useSearch({ from: "/login" });
+  const [mode, setMode] = useState<"login" | "signup">(search.mode ?? "login");
+  const expectedRole = search.role ?? "etudiant";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nom, setNom] = useState("");
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<React.ReactNode>("");
 
   useEffect(() => {
     if (!auth.loading && auth.user && auth.role) {
@@ -26,22 +35,58 @@ function LoginPage() {
     }
   }, [auth.loading, auth.user, auth.role, navigate]);
 
+  const isAdmin = expectedRole === "admin_etablissement";
+
   async function submit(e: React.FormEvent) {
-    e.preventDefault(); setBusy(true); setError("");
-    if (mode === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) { setError(error.message); setBusy(false); return; }
-    } else {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+
+    // Vérification email dans la base
+    const { data: existingRole } = await supabase.rpc("email_role", { _email: email });
+
+    if (mode === "signup") {
+      if (existingRole) {
+        setError(
+          <>
+            Vous êtes déjà inscrit(e). Veuillez{" "}
+            <Link to="/login" search={{ role: expectedRole }} className="font-semibold underline">
+              vous connecter
+            </Link>.
+          </>
+        );
+        setBusy(false);
+        return;
+      }
       const { error } = await supabase.auth.signUp({
         email, password, options: { data: { nom_complet: nom } },
       });
       if (error) { setError(error.message); setBusy(false); return; }
+    } else {
+      if (!existingRole) {
+        setError(
+          <>
+            Vous n'êtes pas encore inscrit(e). Veuillez{" "}
+            {isAdmin ? (
+              <Link to="/login" search={{ mode: "signup", role: "admin_etablissement" }} className="font-semibold underline">vous inscrire d'abord</Link>
+            ) : (
+              <Link to="/register" className="font-semibold underline">vous inscrire d'abord</Link>
+            )}.
+          </>
+        );
+        setBusy(false);
+        return;
+      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) { setError(error.message); setBusy(false); return; }
     }
-    // Bootstrap : premier compte devient super_admin
     try { await claimSuperAdminIfEmpty(); } catch { /* ignore */ }
-    // Le useEffect détectera la session et redirigera
     setBusy(false);
   }
+
+  const title = mode === "login"
+    ? (isAdmin ? "Connexion administrateur" : "Bienvenue 👋")
+    : (isAdmin ? "Créer un compte administrateur" : "Créer un compte étudiant");
 
   return (
     <div className="min-h-screen grid md:grid-cols-2 bg-background">
@@ -53,7 +98,7 @@ function LoginPage() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-gold">Étudiants & Universités</p>
             <h1 className="mt-3 max-w-md font-display text-4xl font-bold leading-tight">Ta scolarité, en un seul endroit.</h1>
-            <p className="mt-4 max-w-md text-sm opacity-80">Une seule connexion pour tous les rôles : étudiant, administrateur d'université ou super administrateur CampusLink.</p>
+            <p className="mt-4 max-w-md text-sm opacity-80">Un espace unifié pour les étudiants et les administrateurs d'universités partenaires.</p>
           </div>
           <p className="text-xs opacity-70">© CampusLink — Plateforme panafricaine.</p>
         </div>
@@ -64,34 +109,35 @@ function LoginPage() {
         <div className="flex flex-1 items-center justify-center px-6 py-10">
           <div className="w-full max-w-sm">
             <div className="md:hidden mb-8"><Logo /></div>
-            <h2 className="font-display text-3xl font-bold">
-              {mode==="login" ? "Bienvenue 👋" : "Créer un compte"}
-            </h2>
+            <Link to="/" className="mb-4 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">← Retour</Link>
+            <h2 className="font-display text-3xl font-bold">{title}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              {mode==="login" ? "Connectez-vous à votre espace CampusLink." : "Créez votre compte administrateur ou super administrateur."}
+              {isAdmin ? "Espace réservé aux administrateurs d'établissements." : "Accédez à votre espace CampusLink."}
             </p>
 
             <form className="mt-8 space-y-4" onSubmit={submit}>
-              {mode==="signup" && (
+              {mode === "signup" && (
                 <Field label="Nom complet"><input value={nom} onChange={e=>setNom(e.target.value)} required className="input" /></Field>
               )}
               <Field label="Email"><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required className="input" /></Field>
               <Field label="Mot de passe"><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required minLength={8} className="input" /></Field>
 
-              {error && <p className="text-xs text-red-600">{error}</p>}
+              {error && <div className="text-xs text-red-600">{error}</div>}
 
               <button disabled={busy} className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-elegant transition hover:opacity-95 disabled:opacity-60">
-                {busy ? "..." : (mode==="login" ? "Se connecter" : "Créer mon compte")}
+                {busy ? "..." : (mode === "login" ? "Se connecter" : "Créer mon compte")}
               </button>
 
               <button type="button" onClick={()=>{setMode(mode==="login"?"signup":"login"); setError("");}} className="w-full text-center text-xs text-muted-foreground hover:text-foreground">
-                {mode==="login" ? "Pas encore de compte ? Créer un compte" : "J'ai déjà un compte"}
+                {mode === "login" ? "Pas encore de compte ? Créer un compte" : "J'ai déjà un compte"}
               </button>
             </form>
 
-            <p className="mt-8 text-center text-xs text-muted-foreground">
-              Vous êtes étudiant ? <Link to="/register" className="font-semibold text-primary hover:underline">Inscription étudiante</Link>
-            </p>
+            {!isAdmin && (
+              <p className="mt-8 text-center text-xs text-muted-foreground">
+                Vous êtes étudiant ? <Link to="/register" className="font-semibold text-primary hover:underline">Inscription étudiante</Link>
+              </p>
+            )}
           </div>
         </div>
       </div>

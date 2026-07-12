@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Logo, KenteBar } from "@/components/campus/ui";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -92,7 +93,7 @@ function Landing() {
               <Link to="/register" className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-elegant hover:opacity-95">
                 S'inscrire au compte étudiant
               </Link>
-              <Link to="/login" className="inline-flex items-center justify-center rounded-xl border border-primary bg-background px-5 py-3 text-sm font-semibold text-primary hover:bg-primary-soft/60">
+              <Link to="/login" search={{ role: "etudiant" }} className="inline-flex items-center justify-center rounded-xl border border-primary bg-background px-5 py-3 text-sm font-semibold text-primary hover:bg-primary-soft/60">
                 Se connecter au compte étudiant
               </Link>
             </div>
@@ -110,16 +111,19 @@ function Landing() {
               </div>
             </div>
             <div className="mt-5 grid gap-2.5">
-              <Link to="/login" className="inline-flex items-center justify-center rounded-xl bg-terracotta px-5 py-3 text-sm font-semibold text-white shadow-elegant hover:opacity-95">
+              <Link to="/login" search={{ mode: "signup", role: "admin_etablissement" }} className="inline-flex items-center justify-center rounded-xl bg-terracotta px-5 py-3 text-sm font-semibold text-white shadow-elegant hover:opacity-95">
                 S'inscrire à mon compte administrateur
               </Link>
-              <Link to="/login" className="inline-flex items-center justify-center rounded-xl border border-terracotta bg-background px-5 py-3 text-sm font-semibold text-terracotta hover:bg-accent/60">
+              <Link to="/login" search={{ role: "admin_etablissement" }} className="inline-flex items-center justify-center rounded-xl border border-terracotta bg-background px-5 py-3 text-sm font-semibold text-terracotta hover:bg-accent/60">
                 Se connecter à mon compte administrateur
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      <PartnershipSection />
+
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
@@ -128,5 +132,57 @@ function Landing() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function PartnershipSection() {
+  const [state, setState] = useState<"idle"|"sending"|"sent"|"error">("idle");
+  const [err, setErr] = useState("");
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setState("sending"); setErr("");
+    const f = new FormData(e.currentTarget);
+    const payload = {
+      nom_etablissement: String(f.get("nom_etablissement") || ""),
+      responsable: String(f.get("responsable") || ""),
+      email: String(f.get("email") || ""),
+      telephone: String(f.get("telephone") || ""),
+      message: String(f.get("message") || ""),
+    };
+    const { error } = await supabase.from("demandes_partenariat").insert(payload);
+    if (error) { setState("error"); setErr(error.message); return; }
+    setState("sent");
+    (e.target as HTMLFormElement).reset();
+  }
+
+  return (
+    <section id="partenariat" className="mx-auto max-w-7xl px-6 pb-16 pt-6">
+      <div className="grid gap-8 rounded-3xl bg-primary p-8 text-primary-foreground md:grid-cols-[1.1fr_1fr] md:p-12">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-gold">Devenir partenaire</p>
+          <h2 className="mt-2 font-display text-3xl font-bold md:text-4xl">Rejoignez CampusLink.</h2>
+          <p className="mt-4 max-w-md text-sm opacity-90">Universités, écoles supérieures, instituts : dites-nous quelques mots sur votre établissement. Notre équipe vous recontacte pour ouvrir votre espace CampusLink.</p>
+          <ul className="mt-6 space-y-2 text-sm opacity-90">
+            <li>✓ Espace administrateur dédié</li>
+            <li>✓ Import de vos étudiants (CSV / Excel)</li>
+            <li>✓ Notes, annonces, événements en un clic</li>
+            <li>✓ Application mobile pour chaque étudiant</li>
+          </ul>
+        </div>
+        <form onSubmit={submit} className="space-y-3 rounded-2xl bg-white/8 p-6 backdrop-blur">
+          <input name="nom_etablissement" required placeholder="Nom de l'établissement" className="w-full rounded-xl bg-white/10 px-4 py-3 text-sm outline-none ring-gold/40 focus:ring-2 placeholder:text-white/60" />
+          <input name="responsable" required placeholder="Nom du responsable" className="w-full rounded-xl bg-white/10 px-4 py-3 text-sm outline-none ring-gold/40 focus:ring-2 placeholder:text-white/60" />
+          <input name="email" type="email" required placeholder="Email professionnel" className="w-full rounded-xl bg-white/10 px-4 py-3 text-sm outline-none ring-gold/40 focus:ring-2 placeholder:text-white/60" />
+          <input name="telephone" placeholder="Téléphone" className="w-full rounded-xl bg-white/10 px-4 py-3 text-sm outline-none ring-gold/40 focus:ring-2 placeholder:text-white/60" />
+          <textarea name="message" rows={3} placeholder="Message" className="w-full rounded-xl bg-white/10 px-4 py-3 text-sm outline-none ring-gold/40 focus:ring-2 placeholder:text-white/60" />
+          <button disabled={state==="sending"} className="w-full rounded-xl bg-gold py-3 text-sm font-semibold text-gold-foreground disabled:opacity-60">
+            {state==="sending" ? "Envoi…" : "Envoyer ma demande"}
+          </button>
+          {state==="sent" && <p className="text-xs text-emerald-200">✓ Demande envoyée. Nous vous recontactons rapidement.</p>}
+          {state==="error" && <p className="text-xs text-red-200">Erreur : {err}</p>}
+        </form>
+      </div>
+    </section>
   );
 }
