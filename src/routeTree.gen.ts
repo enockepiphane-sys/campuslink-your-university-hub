@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as PartenariatRouteImport } from './routes/partenariat'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -40,9 +43,24 @@ const PlatformRoute = PlatformRouteImport.update({
   path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartenariatRoute = PartenariatRouteImport.update({
+  id: '/partenariat',
+  path: '/partenariat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
+  id: '/confidentialite',
+  path: '/confidentialite',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -135,7 +153,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/partenariat': typeof PartenariatRoute
   '/platform': typeof PlatformRouteWithChildren
   '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
@@ -155,7 +176,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/partenariat': typeof PartenariatRoute
   '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/events': typeof AdminEventsRoute
@@ -177,7 +201,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/partenariat': typeof PartenariatRoute
   '/platform': typeof PlatformRouteWithChildren
   '/register': typeof RegisterRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
@@ -201,7 +228,10 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/app'
+    | '/confidentialite'
+    | '/features'
     | '/login'
+    | '/partenariat'
     | '/platform'
     | '/register'
     | '/admin/announcements'
@@ -221,7 +251,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/confidentialite'
+    | '/features'
     | '/login'
+    | '/partenariat'
     | '/register'
     | '/admin/announcements'
     | '/admin/events'
@@ -242,7 +275,10 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/app'
+    | '/confidentialite'
+    | '/features'
     | '/login'
+    | '/partenariat'
     | '/platform'
     | '/register'
     | '/admin/announcements'
@@ -265,7 +301,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
+  ConfidentialiteRoute: typeof ConfidentialiteRoute
+  FeaturesRoute: typeof FeaturesRoute
   LoginRoute: typeof LoginRoute
+  PartenariatRoute: typeof PartenariatRoute
   PlatformRoute: typeof PlatformRouteWithChildren
   RegisterRoute: typeof RegisterRoute
 }
@@ -286,11 +325,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/partenariat': {
+      id: '/partenariat'
+      path: '/partenariat'
+      fullPath: '/partenariat'
+      preLoaderRoute: typeof PartenariatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confidentialite': {
+      id: '/confidentialite'
+      path: '/confidentialite'
+      fullPath: '/confidentialite'
+      preLoaderRoute: typeof ConfidentialiteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -473,7 +533,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
+  ConfidentialiteRoute: ConfidentialiteRoute,
+  FeaturesRoute: FeaturesRoute,
   LoginRoute: LoginRoute,
+  PartenariatRoute: PartenariatRoute,
   PlatformRoute: PlatformRouteWithChildren,
   RegisterRoute: RegisterRoute,
 }
