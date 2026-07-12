@@ -166,7 +166,14 @@ function RegisterPage() {
                 <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="Adresse email" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm" />
                 <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Mot de passe (8 caractères min)" minLength={8} className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm" />
               </div>
-              {error && <p className="mt-3 text-xs text-red-600">{error}</p>}
+              {error && (
+                <p className="mt-3 text-xs text-red-600">
+                  {error}{" "}
+                  {error.includes("déjà inscrit") && (
+                    <Link to="/login" search={{ role: "etudiant" }} className="font-semibold underline">Se connecter</Link>
+                  )}
+                </p>
+              )}
               <button disabled={busy||!email||password.length<8} onClick={creerCompte} className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50">
                 {busy ? "Création…" : "Créer mon compte"}
               </button>
