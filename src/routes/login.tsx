@@ -5,6 +5,7 @@ import { Logo, KenteBar } from "@/components/campus/ui";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, roleHomePath } from "@/lib/use-auth";
 import { claimSuperAdminIfEmpty } from "@/lib/admin-account.functions";
+import { buildAuthRedirectUrl } from "@/lib/app-url";
 
 const searchSchema = z.object({
   mode: z.enum(["login", "signup"]).optional(),
@@ -27,6 +28,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [nom, setNom] = useState("");
   const [busy, setBusy] = useState(false);
+  const [info, setInfo] = useState("");
   const [error, setError] = useState<React.ReactNode>("");
 
   useEffect(() => {
@@ -40,6 +42,7 @@ function LoginPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
+    setInfo("");
     setError("");
 
     // Vérification email dans la base
@@ -59,7 +62,12 @@ function LoginPage() {
         return;
       }
       const { error } = await supabase.auth.signUp({
-        email, password, options: { data: { nom_complet: nom } },
+        email,
+        password,
+        options: {
+          data: { nom_complet: nom },
+          emailRedirectTo: buildAuthRedirectUrl(`/login?mode=login&role=${expectedRole}`),
+        },
       });
       if (error) { setError(error.message); setBusy(false); return; }
     } else {
@@ -82,6 +90,50 @@ function LoginPage() {
     }
     try { await claimSuperAdminIfEmpty(); } catch { /* ignore */ }
     setBusy(false);
+  }
+
+  async function resendConfirmationLink() {
+    if (!email) {
+      setError("Veuillez saisir votre email avant de renvoyer le lien.");
+      return;
+    }
+
+    setBusy(true);
+    setInfo("");
+    setError("");
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email,
+      options: { emailRedirectTo: buildAuthRedirectUrl(`/login?mode=login&role=${expectedRole}`) },
+    });
+    setBusy(false);
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setInfo("Lien de confirmation renvoyé. Vérifiez votre boîte email.");
+  }
+
+  async function forgotPassword() {
+    if (!email) {
+      setError("Veuillez saisir votre email pour réinitialiser le mot de passe.");
+      return;
+    }
+
+    setBusy(true);
+    setInfo("");
+    setError("");
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: buildAuthRedirectUrl(`/login?role=${expectedRole}`),
+    });
+    setBusy(false);
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setInfo("Lien de réinitialisation envoyé. Vérifiez votre boîte email.");
   }
 
   const title = mode === "login"
@@ -123,14 +175,36 @@ function LoginPage() {
               <Field label="Mot de passe"><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required minLength={8} className="input" /></Field>
 
               {error && <div className="text-xs text-red-600">{error}</div>}
+              {info && <div className="text-xs text-emerald-600">{info}</div>}
 
               <button disabled={busy} className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-elegant transition hover:opacity-95 disabled:opacity-60">
                 {busy ? "..." : (mode === "login" ? "Se connecter" : "Créer mon compte")}
               </button>
 
-              <button type="button" onClick={()=>{setMode(mode==="login"?"signup":"login"); setError("");}} className="w-full text-center text-xs text-muted-foreground hover:text-foreground">
+              <button type="button" onClick={()=>{setMode(mode==="login"?"signup":"login"); setError(""); setInfo("");}} className="w-full text-center text-xs text-muted-foreground hover:text-foreground">
                 {mode === "login" ? "Pas encore de compte ? Créer un compte" : "J'ai déjà un compte"}
               </button>
+
+              {mode === "login" && (
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={resendConfirmationLink}
+                    disabled={busy}
+                    className="w-full text-center text-xs text-muted-foreground hover:text-foreground disabled:opacity-60"
+                  >
+                    Renvoyer le lien de confirmation
+                  </button>
+                  <button
+                    type="button"
+                    onClick={forgotPassword}
+                    disabled={busy}
+                    className="w-full text-center text-xs text-muted-foreground hover:text-foreground disabled:opacity-60"
+                  >
+                    Mot de passe oublié ?
+                  </button>
+                </div>
+              )}
             </form>
 
             {!isAdmin && (
